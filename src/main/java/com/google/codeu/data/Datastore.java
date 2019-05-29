@@ -61,10 +61,29 @@ public class Datastore {
             .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
+    messages = getMessagesHelperFunction(results,messages);
+
+    return messages;
+  }
+
+  public List<Message> getAllMessages(){
+    List<Message> messages = new ArrayList<>();
+    Query query =
+      new Query("Message")
+        .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    messages = getMessagesHelperFunction(results,messages);
+
+    return messages;
+  }
+
+  public List<Message> getMessagesHelperFunction(PreparedQuery results, List<Message> messages){
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
