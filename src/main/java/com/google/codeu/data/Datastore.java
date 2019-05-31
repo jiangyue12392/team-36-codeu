@@ -79,4 +79,18 @@ public class Datastore {
 
     return messages;
   }
+
+  /**
+   * Gets all users
+   * @return a list of user strings or empty string if there is no user
+   */
+  public Set<String> getUsers(){
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for(Entity entity : results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
+  }
 }
