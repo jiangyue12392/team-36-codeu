@@ -55,32 +55,29 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
-
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
 
-    messages = getMessagesHelperFunction(results,messages);
-
+    messages = getMessagesHelperFunction(query);
     return messages;
   }
 
   public List<Message> getAllMessages(){
-    List<Message> messages = new ArrayList<>();
     Query query =
       new Query("Message")
         .addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
 
-    messages = getMessagesHelperFunction(results,messages);
-
+    messages = getMessagesHelperFunction(query);
     return messages;
   }
 
-  public List<Message> getMessagesHelperFunction(PreparedQuery results, List<Message> messages){
+  private List<Message> getMessagesHelperFunction(Query query){
+    List<Message> messages = new ArrayList<>();
+
+    PreparedQuery results = datastore.prepare(query);
+
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
