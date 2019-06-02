@@ -24,7 +24,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /** Provides access to the data stored in Datastore. */
@@ -94,5 +96,19 @@ public class Datastore {
     }
 
     return messages;
+  }
+
+  /**
+   * Gets all users
+   * @return a list of user strings or empty string if there is no user
+   */
+  public Set<String> getUsers(){
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for(Entity entity : results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
   }
 }
