@@ -56,16 +56,17 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
+    List<Message> messages = new ArrayList<>();
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
-
     messages = getMessagesHelperFunction(query);
     return messages;
   }
 
   public List<Message> getAllMessages(){
+    List<Message> messages = new ArrayList<>();
     Query query =
       new Query("Message")
         .addSort("timestamp", SortDirection.DESCENDING);
@@ -99,6 +100,20 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Gets all users
+   * @return a list of user strings or empty string if there is no user
+   */
+  public Set<String> getUsers(){
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for(Entity entity : results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
+  }
+
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
@@ -119,19 +134,5 @@ public class Datastore {
       }
     }
     return maxLength;
-  }
-
-  /**
-   * Gets all users
-   * @return a list of user strings or empty string if there is no user
-   */
-  public Set<String> getUsers(){
-    Set<String> users = new HashSet<>();
-    Query query = new Query("Message");
-    PreparedQuery results = datastore.prepare(query);
-    for(Entity entity : results.asIterable()) {
-      users.add((String) entity.getProperty("user"));
-    }
-    return users;
   }
 }
