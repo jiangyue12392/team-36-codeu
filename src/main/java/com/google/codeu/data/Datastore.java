@@ -99,7 +99,6 @@ public class Datastore {
     return messages;
   }
 
-<<<<<<< HEAD
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
@@ -122,7 +121,6 @@ public class Datastore {
     return maxLength;
   }
 
-=======
   /**
    * Gets all users
    * @return a list of user strings or empty string if there is no user
@@ -136,5 +134,4 @@ public class Datastore {
     }
     return users;
   }
->>>>>>> 6b3618ad6cdecc2b5a5e7265c1eeee7e9a2b9311
 }
