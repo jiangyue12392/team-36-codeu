@@ -19,14 +19,6 @@ body {
   max-width: 600px;
 }
 
-html {
-  background-color: cornsilk;
-}
-
-h1 {
-  color: cadetblue;
-}
-
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;

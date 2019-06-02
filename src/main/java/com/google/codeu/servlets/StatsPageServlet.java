@@ -36,7 +36,7 @@ public class StatsPageServlet extends HttpServlet{
 
      JsonObject jsonObject = new JsonObject();
      jsonObject.addProperty("messageCount", messageCount);
-     jsonObject.addProperty("longestMessageLength", maxMsgLength);
+     jsonObject.addProperty("maxMsgLength", maxMsgLength);
      response.getOutputStream().println(jsonObject.toString());
    }
  }

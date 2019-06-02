@@ -25,7 +25,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /** Provides access to the data stored in Datastore. */
@@ -54,18 +56,34 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
-
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
+
+    messages = getMessagesHelperFunction(query);
+    return messages;
+  }
+
+  public List<Message> getAllMessages(){
+    Query query =
+      new Query("Message")
+        .addSort("timestamp", SortDirection.DESCENDING);
+
+    messages = getMessagesHelperFunction(query);
+    return messages;
+  }
+
+  private List<Message> getMessagesHelperFunction(Query query){
+    List<Message> messages = new ArrayList<>();
+
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
@@ -81,6 +99,7 @@ public class Datastore {
     return messages;
   }
 
+<<<<<<< HEAD
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
@@ -103,4 +122,19 @@ public class Datastore {
     return maxLength;
   }
 
+=======
+  /**
+   * Gets all users
+   * @return a list of user strings or empty string if there is no user
+   */
+  public Set<String> getUsers(){
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for(Entity entity : results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
+  }
+>>>>>>> 6b3618ad6cdecc2b5a5e7265c1eeee7e9a2b9311
 }

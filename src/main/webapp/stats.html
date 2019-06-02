@@ -17,8 +17,8 @@
           const messageCountElement = buildStatElement('Message count: ' + stats.messageCount);
           statsContainer.appendChild(messageCountElement);
 
-          const maxMessageElement = buildStatElement('Maximum message length: ' + stats.maxMsgLength);
-          statsContainer.appendChild(maxMessageElement);
+          const maxMsgLengthElement = buildStatElement('Maximum message length: ' + stats.maxMsgLength);
+          statsContainer.appendChild(maxMsgLengthElement);
         });
       }
 
@@ -37,7 +37,7 @@
 
   <body onload="buildUI()">
     <div id="content">
-      <h1>Site Statistics</h1>
+      <h1 id>Site Statistics</h1>
       <hr/>
       <div id="stats-container">Loading...</div>
     </div>
