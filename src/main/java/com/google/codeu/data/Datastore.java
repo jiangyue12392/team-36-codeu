@@ -66,7 +66,7 @@ public class Datastore {
   }
 
   public List<Message> getAllMessages(){
-    List<Message> messages = new ArrayList<>();
+    List<Message> messages;
     Query query =
       new Query("Message")
         .addSort("timestamp", SortDirection.DESCENDING);
