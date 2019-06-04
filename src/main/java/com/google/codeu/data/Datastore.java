@@ -19,6 +19,7 @@ package com.google.codeu.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -55,16 +56,23 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
+    List<Message> messages;
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
-
     messages = getMessagesHelperFunction(query);
     return messages;
   }
 
+  /**
+   * Gets all messages.
+   *
+   * @return a list of all messages posted, or empty list if no messages have
+   *     been posted. List is sorted by time descending.
+   */
   public List<Message> getAllMessages(){
+    List<Message> messages;
     Query query =
       new Query("Message")
         .addSort("timestamp", SortDirection.DESCENDING);
@@ -110,5 +118,27 @@ public class Datastore {
       users.add((String) entity.getProperty("user"));
     }
     return users;
+  }
+
+  /** Returns the total number of messages for all users. */
+  public int getTotalMessageCount(){
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withLimit(1000));
+  }
+
+  /** Returns the total number of messages for all users. */
+  public int getLongestMessageLength() {
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    int maxLength = 0;
+    for (Entity entity : results.asIterable()) {
+      String msgText = (String) entity.getProperty("text");
+      int msgLength = msgText.length();
+      if (msgLength > maxLength) {
+        maxLength = msgLength;
+      }
+    }
+    return maxLength;
   }
 }
