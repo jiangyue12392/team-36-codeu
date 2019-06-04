@@ -65,6 +65,12 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Gets all messages.
+   *
+   * @return a list of all messages posted, or empty list if no messages have
+   *     been posted. List is sorted by time descending.
+   */
   public List<Message> getAllMessages(){
     List<Message> messages;
     Query query =
