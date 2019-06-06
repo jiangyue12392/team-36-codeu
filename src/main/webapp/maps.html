@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello Google Maps</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
-    <script>
-        function createMap(){
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 1.2764558, lng: 103.7996469},
-                zoom: 16
-            });
-        }
-    </script>
-    <style>
-        #map {
-            width: 500px;
-            height: 500px;
-            border: thin solid black;
-        }
-    </style>
+  <title>Styled Map Types</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 80%;
+      border: thin solid black;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 80%;
+      margin: 0;
+      padding: 10px;
+    }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
+  <script src="/js/maps-page-loader.js"></script>
+<!--  <style>
+    #map {
+      width: 500px;
+      height: 500px;
+      border: thin solid black;
+    }
+  </style>-->
 </head>
 <body onload="createMap();">
 <h1>Hello Google Maps</h1>
