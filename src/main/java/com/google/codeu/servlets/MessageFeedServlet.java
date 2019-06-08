@@ -2,6 +2,7 @@ package com.google.codeu.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.codeu.utils.Translator;
 import com.google.gson.Gson;
 
 /**
@@ -18,26 +20,55 @@ import com.google.gson.Gson;
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet{
 
- private Datastore datastore;
+  private Datastore datastore;
 
- @Override
- public void init() {
-  datastore = new Datastore();
- }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
 
- /**
-  * Responds with a JSON representation of Message data for all users.
-  */
- @Override
- public void doGet(HttpServletRequest request, HttpServletResponse response)
-         throws IOException {
+  /**
+   * Responds with a JSON representation of Message data for all users.
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  response.setContentType("application/json");
+    response.setContentType("application/json");
 
-  List<Message> messages = datastore.getAllMessages();
-  Gson gson = new Gson();
-  String json = gson.toJson(messages);
+    List<Message> messages = datastore.getAllMessages();
+    Gson gson = new Gson();
+    String json = gson.toJson(messages);
 
-  response.getOutputStream().println(json);
- }
+    response.getOutputStream().println(json);
+  }
+
+  /**
+   * Process translation requirement for messages
+   */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String language = request.getParameter("language");
+
+    List<Message> messages = datastore.getAllMessages();
+    List<Message> translatedMessage = new ArrayList<Message>();
+
+    if (language.equals("original")) {
+      translatedMessage = messages;
+    } else {
+      try {
+        for (Message msg : messages) {
+          translatedMessage.add(new Message(msg.getId(), msg.getUser(),
+                                Translator.translate(msg.getText(), language), msg.getTimestamp()));
+        }
+      } catch (Exception e) {
+        response.getOutputStream().println(e.toString());
+      }
+    }
+    response.setContentType("application/json; charset=UTF-8");
+
+    Gson gson = new Gson();
+    String json = gson.toJson(translatedMessage);
+
+    response.getWriter().println(json);
+  }
 }
