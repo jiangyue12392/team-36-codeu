@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 public class MessageFeedServlet extends HttpServlet{
 
   private Datastore datastore;
-  private Gson;
+  private Gson gson;
 
   @Override
   public void init() {
