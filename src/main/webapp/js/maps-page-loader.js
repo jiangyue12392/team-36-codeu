@@ -1,259 +1,39 @@
+const MAP_ELEMENT_ID = 'map';
+const MAP_NIGHT_TYPE_ID = 'night'
 /**
- * To style the map
+ * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
+ * Map styles are different modes that will be displayed to the user (The user can switch around with button)
+ * Added night mode (the static configs for that style is in extraMapStyles.js)
+ * New modes/map styles can be added in extraMapStyles.js file.
+ *
  */
-
-function createMap() {
-
+function initConfigMap() {
 	// Create a new StyledMapType object, passing it an array of styles,
 	// and the name to be displayed on the map type control.
-	var styledMapType = new google.maps.StyledMapType(
-			[
-				{
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#1d2c4d"
-						}
-					]
-				},
-				{
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#8ec3b9"
-						}
-					]
-				},
-				{
-					"elementType": "labels.text.stroke",
-					"stylers": [
-						{
-							"color": "#1a3646"
-						}
-					]
-				},
-				{
-					"featureType": "administrative.country",
-					"elementType": "geometry.stroke",
-					"stylers": [
-						{
-							"color": "#4b6878"
-						}
-					]
-				},
-				{
-					"featureType": "administrative.land_parcel",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#64779e"
-						}
-					]
-				},
-				{
-					"featureType": "administrative.province",
-					"elementType": "geometry.stroke",
-					"stylers": [
-						{
-							"color": "#4b6878"
-						}
-					]
-				},
-				{
-					"featureType": "landscape.man_made",
-					"elementType": "geometry.stroke",
-					"stylers": [
-						{
-							"color": "#334e87"
-						}
-					]
-				},
-				{
-					"featureType": "landscape.natural",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#023e58"
-						}
-					]
-				},
-				{
-					"featureType": "poi",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#283d6a"
-						}
-					]
-				},
-				{
-					"featureType": "poi",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#6f9ba5"
-						}
-					]
-				},
-				{
-					"featureType": "poi",
-					"elementType": "labels.text.stroke",
-					"stylers": [
-						{
-							"color": "#1d2c4d"
-						}
-					]
-				},
-				{
-					"featureType": "poi.park",
-					"elementType": "geometry.fill",
-					"stylers": [
-						{
-							"color": "#023e58"
-						}
-					]
-				},
-				{
-					"featureType": "poi.park",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#3C7680"
-						}
-					]
-				},
-				{
-					"featureType": "road",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#304a7d"
-						}
-					]
-				},
-				{
-					"featureType": "road",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#98a5be"
-						}
-					]
-				},
-				{
-					"featureType": "road",
-					"elementType": "labels.text.stroke",
-					"stylers": [
-						{
-							"color": "#1d2c4d"
-						}
-					]
-				},
-				{
-					"featureType": "road.highway",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#2c6675"
-						}
-					]
-				},
-				{
-					"featureType": "road.highway",
-					"elementType": "geometry.stroke",
-					"stylers": [
-						{
-							"color": "#255763"
-						}
-					]
-				},
-				{
-					"featureType": "road.highway",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#b0d5ce"
-						}
-					]
-				},
-				{
-					"featureType": "road.highway",
-					"elementType": "labels.text.stroke",
-					"stylers": [
-						{
-							"color": "#023e58"
-						}
-					]
-				},
-				{
-					"featureType": "transit",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#98a5be"
-						}
-					]
-				},
-				{
-					"featureType": "transit",
-					"elementType": "labels.text.stroke",
-					"stylers": [
-						{
-							"color": "#1d2c4d"
-						}
-					]
-				},
-				{
-					"featureType": "transit.line",
-					"elementType": "geometry.fill",
-					"stylers": [
-						{
-							"color": "#283d6a"
-						}
-					]
-				},
-				{
-					"featureType": "transit.station",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#3a4762"
-						}
-					]
-				},
-				{
-					"featureType": "water",
-					"elementType": "geometry",
-					"stylers": [
-						{
-							"color": "#0e1626"
-						}
-					]
-				},
-				{
-					"featureType": "water",
-					"elementType": "labels.text.fill",
-					"stylers": [
-						{
-							"color": "#4e6d70"
-						}
-					]
-				}
-			],
-			{name: 'Night'});
+	const styledMapType = new google.maps.StyledMapType(extraStyles.Night,{name: 'Night'});
 
 	// Create a map object, and include the MapTypeId to add
 	// to the map type control.
-	var map = new google.maps.Map(document.getElementById('map'), {
+	const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
 		center: {lat: 1.2764558, lng: 103.7996469},
 		zoom: 16,
 		mapTypeControlOptions: {
-			mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-				'Night']
+			mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
 		}
 	});
 
-	//Associate the styled map with the MapTypeId and set it to display.
-	map.mapTypes.set('Night', styledMapType);
-	map.setMapTypeId('Night');
+	const trexMarker = new google.maps.Marker({
+		position: {lat: 1.2765, lng: 103.8},
+		map: map,
+		title: 'Stan the T-Rex'
+	});
+
+	const trexInfoWindow = new google.maps.InfoWindow({
+		content: 'This is Stan, the T-Rex statue.'
+	});
+	trexInfoWindow.open(map, trexMarker);
+
+	// Associate the styled map with the MapTypeId and set it to display.
+	map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
+	map.setMapTypeId(MAP_NIGHT_TYPE_ID);
 }
