@@ -1,8 +1,8 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +43,7 @@ public class MessageFeedServlet extends HttpServlet{
   }
 
   /**
-   * Process translation requirement for messages
+   * Process translation request and response with a JSON representation of translated Messages
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -64,11 +64,11 @@ public class MessageFeedServlet extends HttpServlet{
         response.getOutputStream().println(e.toString());
       }
     }
-    response.setContentType("application/json; charset=UTF-8");
 
     Gson gson = new Gson();
     String json = gson.toJson(translatedMessage);
-
+    response.setContentType("application/json; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
   }
 }

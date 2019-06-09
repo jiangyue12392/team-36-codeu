@@ -18,15 +18,15 @@
     </nav>
     <div id="content">
       <h1>Message Feed</h1>
-      <form id="language-form" action="/feed" method="POST">
-        <select name="language">
+      <div>
+        <select id="language">
           <option value="original">Original</option>
           <option value="en">English</option>
           <option value="zh">Chinese</option>
           <option value="hi">Hindi</option>
         </select>
-        <input type="submit" value="Translate" class="Button">
-      </form>
+        <button onclick="submitTransReq();">Translate</button>
+      </div>
       <hr/>
       <div id="message-container">Loading...</div>
     </div>
