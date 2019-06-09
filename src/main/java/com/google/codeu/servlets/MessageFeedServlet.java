@@ -63,7 +63,7 @@ public class MessageFeedServlet extends HttpServlet{
                                 Translator.translate(msg.getText(), language), msg.getTimestamp()));
         }
       } catch (Exception e) {
-        response.getOutputStream().println(e.toString());
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Translation Failure.");
       }
     }
 
