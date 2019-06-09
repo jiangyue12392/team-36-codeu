@@ -6,15 +6,14 @@ function fetchMessages(){
     return response.json();
   }).then((messages) => {
     const messageContainer = document.getElementById('message-container');
-    if(messages.length == 0){
+    if (messages.length == 0){
       messageContainer.innerHTML = '<p>There are no posts yet.</p>';
-    }
-    else{
+    } else {
       messageContainer.innerHTML = '';
     }
     messages.forEach((message) => {
       const messageDiv = buildMessageDiv(message);
-    messageContainer.appendChild(messageDiv);
+      messageContainer.appendChild(messageDiv);
     });
   });
 }
@@ -60,19 +59,22 @@ function submitTransReq() {
   transReq.send(params);
 
   transReq.onload = function () {
-    messages = transReq.response;
-    if(messages.length == 0){
-      messageContainer.innerHTML = '<p>There are no posts yet.</p>';
+    if (transReq.status == 200) {
+      messages = transReq.response;
+      if (messages.length == 0) {
+        messageContainer.innerHTML = '<p>There are no posts yet.</p>';
+      } else {
+        messageContainer.innerHTML = '';
+      }
+      messages.forEach((message) => {
+        const messageDiv = buildMessageDiv(message);
+        messageContainer.appendChild(messageDiv);
+      });
+    } else {
+      messageContainer.innerText = 'Translation failed. Please refresh the page.';
+      console.log(transReq.status);
     }
-    else{
-      messageContainer.innerHTML = '';
-    }
-    messages.forEach((message) => {
-      const messageDiv = buildMessageDiv(message);
-      messageContainer.appendChild(messageDiv);
-    });
   }
-  return false;
 }
 
 // Fetch data and populate the UI of the page.
