@@ -2,9 +2,8 @@
 // Fetch messages and add them to the page.
 function fetchMessages(){
   const url = '/feed';
-  fetch(url).then((response) => {
-    return response.json();
-  }).then((messages) => {
+  fetch(url).then((response) => response.json()
+  ).then((messages) => {
     const messageContainer = document.getElementById('message-container');
     if (messages.length == 0){
       messageContainer.innerHTML = '<p>There are no posts yet.</p>';
@@ -12,8 +11,7 @@ function fetchMessages(){
       messageContainer.innerHTML = '';
     }
     messages.forEach((message) => {
-      const messageDiv = buildMessageDiv(message);
-      messageContainer.appendChild(messageDiv);
+      messageContainer.appendChild(buildMessageDiv(message));
     });
   });
 }
@@ -44,6 +42,7 @@ function buildMessageDiv(message){
   return messageDiv;
 }
 
+// Posts the selected language to be translated to and fetch translated messages from server.
 function submitTransReq() {
   const url = '/feed';
   const language = document.getElementById('language').value;
@@ -60,15 +59,14 @@ function submitTransReq() {
 
   transReq.onload = function () {
     if (transReq.status == 200) {
-      messages = transReq.response;
+      let messages = transReq.response;
       if (messages.length == 0) {
         messageContainer.innerHTML = '<p>There are no posts yet.</p>';
       } else {
         messageContainer.innerHTML = '';
       }
       messages.forEach((message) => {
-        const messageDiv = buildMessageDiv(message);
-        messageContainer.appendChild(messageDiv);
+        messageContainer.appendChild(buildMessageDiv(message));
       });
     } else {
       messageContainer.innerText = 'Translation failed. Please refresh the page.';
