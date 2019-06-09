@@ -23,11 +23,13 @@ import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
-import javax.imageio.ImageIO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -79,12 +81,28 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
-    String replacement = "<img src=\"$1\" />";
-    String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+    UrlValidator defaultValidator = new UrlValidator();
 
-    Message message = new Message(user, textWithImagesReplaced);
-    datastore.storeMessage(message);
+    String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
+
+    System.out.println("Text is:" + userText);
+
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(userText);
+    String url = "";
+    while (matcher.find()) {
+      url = matcher.group();
+    }
+
+    if (defaultValidator.isValid(url)) {
+      String replacement = "<img src=\"$1\" />";
+      String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+      Message message = new Message(user, textWithImagesReplaced);
+      datastore.storeMessage(message);
+    } else {
+        Message message = new Message(user, userText);
+        datastore.storeMessage(message);
+    }
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
