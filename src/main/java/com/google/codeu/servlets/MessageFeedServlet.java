@@ -21,10 +21,12 @@ import com.google.gson.Gson;
 public class MessageFeedServlet extends HttpServlet{
 
   private Datastore datastore;
+  private Gson;
 
   @Override
   public void init() {
     datastore = new Datastore();
+    gson = new Gson();
   }
 
   /**
@@ -36,7 +38,6 @@ public class MessageFeedServlet extends HttpServlet{
     response.setContentType("application/json");
 
     List<Message> messages = datastore.getAllMessages();
-    Gson gson = new Gson();
     String json = gson.toJson(messages);
 
     response.setContentType("application/json; charset=UTF-8");
@@ -67,7 +68,6 @@ public class MessageFeedServlet extends HttpServlet{
       }
     }
 
-    Gson gson = new Gson();
     String json = gson.toJson(translatedMessage);
     response.setContentType("application/json; charset=UTF-8");
     response.setCharacterEncoding("UTF-8");
