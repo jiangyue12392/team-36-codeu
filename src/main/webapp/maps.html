@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Styled Map Types</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 80%;
+      border: thin solid black;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 80%;
+      margin: 0;
+      padding: 10px;
+    }
+  </style>
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
+  <script src="/js/maps-page-loader.js"></script>
+</head>
+
+<body onload="initConfigMap();">
+  <h1>Hello Google Maps</h1>
+  <div id="map"></div>
+  <p>This page shows a Google Map!</p>
+</body>
+</html>
