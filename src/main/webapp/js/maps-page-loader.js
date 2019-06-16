@@ -7,37 +7,52 @@ const MAP_NIGHT_TYPE_ID = 'night'
  * New modes/map styles can be added in extraMapStyles.json file.
  *
  */
-function initConfigMap() {
-  $.getJSON("/json/extraMapStyles.json", function(json) {
-    // Create a new StyledMapType object, passing it an array of styles,
-    // and the name to be displayed on the map type control.
-    const styledMapType = new google.maps.StyledMapType(json.Night,{name: 'Night'});
+function fetchNightStyleJSONValues() {
+  const url = '/json/extraMapStyles.json';
+  fetch(url)
+    .then(response => response.json())
+    .then(data => addDiffStylesToMap(data.Night));
+}
 
-    // Create a map object, and include the MapTypeId to add
-    // to the map type control.
-    const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
-      center: {lat: 1.2764558, lng: 103.7996469},
-      zoom: 16,
-      mapTypeControlOptions: {
-        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
-      }
-    });
+function addDiffStylesToMap(nightStyle){
+  // Create a new StyledMapType object, passing it an array of styles,
+  // and the name to be displayed on the map type control.
+  const styledMapType = new google.maps.StyledMapType(nightStyle,{name: 'Night'});
 
-    // Place a marker on the map at the specified position
-    const trexMarker = new google.maps.Marker({
-      position: {lat: 1.2765, lng: 103.8},
-      map: map,
-      title: 'Stan the T-Rex'
-    });
+  createNightStyledMap(styledMapType);
+}
 
-    // Have a pop-up window over the marker
-    const trexInfoWindow = new google.maps.InfoWindow({
-      content: 'This is Stan, the T-Rex statue.'
-    });
-    trexInfoWindow.open(map, trexMarker);
-
-    // Associate the styled map with the MapTypeId and set it to display.
-    map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
-    map.setMapTypeId(MAP_NIGHT_TYPE_ID);
+function createNightStyledMap(styledMapType){
+  // Create a map object, and include the MapTypeId to add
+  // to the map type control.
+  const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
+    center: {lat: 1.2764558, lng: 103.7996469},
+    zoom: 16,
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
+    }
   });
+
+  // Associate the styled map with the MapTypeId and set it to display.
+  map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
+  map.setMapTypeId(MAP_NIGHT_TYPE_ID);
+
+  // Place a marker on the map at the specified position
+  const trexMarker = new google.maps.Marker({
+    position: {lat: 1.2765, lng: 103.8},
+    map: map,
+    title: 'Stan the T-Rex'
+  });
+
+  // Have a pop-up window over the marker
+  const trexInfoWindow = new google.maps.InfoWindow({
+    content: 'This is not Stan, the T-Rex statue.'
+  });
+  trexInfoWindow.open(map, trexMarker);
+
+
+}
+
+function buildUI(){
+  fetchNightStyleJSONValues();
 }
