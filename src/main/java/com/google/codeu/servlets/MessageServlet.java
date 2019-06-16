@@ -81,9 +81,6 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    Message message = new Message(user, text);
-    datastore.storeMessage(message);
-
     //Perform sentiment analysis when the user submits a message
     Document doc = Document.newBuilder()
         .setContent(text).setType(Document.Type.PLAIN_TEXT).build();
@@ -93,6 +90,8 @@ public class MessageServlet extends HttpServlet {
     System.out.println("Sentiment Score = " + score);
     languageService.close();
 
+    Message message = new Message(user, text, score);
+    datastore.storeMessage(message);
     response.sendRedirect("/user-page.html?user=" + user);
   }
 }
