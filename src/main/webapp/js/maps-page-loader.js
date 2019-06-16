@@ -37,21 +37,42 @@ function createNightStyledMap(styledMapType){
   map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
   map.setMapTypeId(MAP_NIGHT_TYPE_ID);
 
-  // Place a marker on the map at the specified position
-  const trexMarker = new google.maps.Marker({
-    position: {lat: 1.2765, lng: 103.8},
-    map: map,
-    title: 'Stan the T-Rex'
-  });
-
-  // Have a pop-up window over the marker
-  const trexInfoWindow = new google.maps.InfoWindow({
-    content: 'This is not Stan, the T-Rex statue.'
-  });
-  trexInfoWindow.open(map, trexMarker);
-
-
+  createUfoSightingsMap(map);
 }
+
+/**
+ *This function places markers of the UFO sighting locations on the map. (Zoom out to see the markers).
+ */
+
+function createUfoSightingsMap(map){
+  fetch('/ufo-data')
+    .then(response => response.json())
+    .then(ufoSightings => ufoSightings.forEach((ufoSighting) => {
+      new google.maps.Marker({
+      position: {lat: ufoSighting.lat, lng: ufoSighting.lng},
+      map: map
+    });
+  }));
+}
+
+/**
+ * This is will be further worked on. I couldn't debug this by the time this week's snippets is due.
+ */
+
+/*
+function createCinemaLocationsMap(map){
+  fetch('/cinema-data')
+    .then(response => response.json())
+    .then(cinemaLocations => cinemaLocations.forEach((cinemaLocation) => {
+    new google.maps.Marker({
+      position: {lat: cinemaLocation.lat, lng: cinemaLocation.lng},
+      map: map
+    });
+  console.log(cinemaLocation.lat);
+  console.log(cinemaLocation.lng);
+  }));
+}
+*/
 
 function buildUI(){
   fetchNightStyleJSONValues();
