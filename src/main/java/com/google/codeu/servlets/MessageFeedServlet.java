@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.codeu.utils.Translator;
 import com.google.gson.Gson;
 
 /**
@@ -18,26 +20,57 @@ import com.google.gson.Gson;
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet{
 
- private Datastore datastore;
+  private Datastore datastore;
+  private Gson gson;
 
- @Override
- public void init() {
-  datastore = new Datastore();
- }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+    gson = new Gson();
+  }
 
- /**
-  * Responds with a JSON representation of Message data for all users.
-  */
- @Override
- public void doGet(HttpServletRequest request, HttpServletResponse response)
-         throws IOException {
+  /**
+   * Responds with a JSON representation of Message data for all users.
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  response.setContentType("application/json");
+    response.setContentType("application/json");
 
-  List<Message> messages = datastore.getAllMessages();
-  Gson gson = new Gson();
-  String json = gson.toJson(messages);
+    List<Message> messages = datastore.getAllMessages();
+    String json = gson.toJson(messages);
 
-  response.getOutputStream().println(json);
- }
+    response.setContentType("application/json; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(json);
+  }
+
+  /**
+   * Process translation request and response with a JSON representation of translated Messages
+   */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String language = request.getParameter("language");
+
+    List<Message> messages = datastore.getAllMessages();
+    List<Message> translatedMessage = new ArrayList<Message>();
+
+    if (language.equals("original")) {
+      translatedMessage = messages;
+    } else {
+      try {
+        for (Message msg : messages) {
+          translatedMessage.add(new Message(msg.getId(), msg.getUser(),
+                                Translator.translate(msg.getText(), language), msg.getTimestamp()));
+        }
+      } catch (Exception e) {
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Translation Failure.");
+      }
+    }
+
+    String json = gson.toJson(translatedMessage);
+    response.setContentType("application/json; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(json);
+  }
 }
