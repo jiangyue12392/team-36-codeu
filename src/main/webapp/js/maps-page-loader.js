@@ -2,8 +2,8 @@ const MAP_ELEMENT_ID = 'map';
 const MAP_NIGHT_TYPE_ID = 'night'
 /**
  * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
- * Map styles are different modes that will be displayed to the user (The user can switch around with button)
- * Added night mode (the static configs for that style is in extraMapStyles.json)
+ * Map styles are different modes that will be displayed to the user
+ * Added night mode (static configs for that style in extraMapStyles.json)
  * New modes/map styles can be added in extraMapStyles.json file.
  *
  */
@@ -26,8 +26,8 @@ function createNightStyledMap(styledMapType){
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
   const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
-    center: {lat: 1.2764558, lng: 103.7996469},
-    zoom: 16,
+    center: {lat: 1.290270, lng: 103.851959},
+    zoom: 13,
     mapTypeControlOptions: {
       mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
     }
@@ -37,29 +37,12 @@ function createNightStyledMap(styledMapType){
   map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
   map.setMapTypeId(MAP_NIGHT_TYPE_ID);
 
-  createUfoSightingsMap(map);
+  createCinemaLocationsMap(map);
 }
 
 /**
- *This function places markers of the UFO sighting locations on the map. (Zoom out to see the markers).
+ * This function places markers of the cinema locations on the map.
  */
-
-function createUfoSightingsMap(map){
-  fetch('/ufo-data')
-    .then(response => response.json())
-    .then(ufoSightings => ufoSightings.forEach((ufoSighting) => {
-      new google.maps.Marker({
-      position: {lat: ufoSighting.lat, lng: ufoSighting.lng},
-      map: map
-    });
-  }));
-}
-
-/**
- * This is will be further worked on. I couldn't debug this by the time this week's snippets is due.
- */
-
-/*
 function createCinemaLocationsMap(map){
   fetch('/cinema-data')
     .then(response => response.json())
@@ -68,11 +51,8 @@ function createCinemaLocationsMap(map){
       position: {lat: cinemaLocation.lat, lng: cinemaLocation.lng},
       map: map
     });
-  console.log(cinemaLocation.lat);
-  console.log(cinemaLocation.lng);
   }));
 }
-*/
 
 function buildUI(){
   fetchNightStyleJSONValues();
