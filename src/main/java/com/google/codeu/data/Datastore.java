@@ -119,15 +119,22 @@ public class Datastore {
     }
     return users;
   }
-
-  /** Returns the total number of messages for all users. */
+  /**
+   * Gets number of total messages
+   *
+   * @return the total number of messages for all users.
+   */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-  /** Returns the total number of messages for all users. */
+  /**
+   * Gets the longest message length
+   *
+   * @return the longest message length
+   */
   public int getLongestMessageLength() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
