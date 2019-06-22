@@ -10,7 +10,7 @@
           fetch("/moviechart").then((response) => response.json())
             .then((movieJson) => {
               const movieData = new google.visualization.DataTable();
-              //define columns for the DataTable instance
+              // define columns for the DataTable instance
               movieData.addColumn('string', 'Movie Title');
               movieData.addColumn('number', 'Audience Score %');
               movieData.addColumn('number', 'Worldwide Gross ($)');

@@ -13,13 +13,14 @@ import com.google.codeu.utils.CsvLoader;
 @WebServlet("/moviechart")
 public class ChartServlet extends HttpServlet {
 
-  private JsonArray movieInfoArray;
+  private static final String movieInfoFilePath = "/WEB-INF/movies.csv";
+  private JsonArray movieInfos;
 
   @Override
   public void init() {
-    Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/movies.csv"));
+    Scanner scanner = new Scanner(getServletContext().getResourceAsStream(movieInfoFilePath));
     try {
-      movieInfoArray = CsvLoader.csvToJson(scanner);
+      movieInfos = CsvLoader.csvToJson(scanner);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
@@ -28,6 +29,6 @@ public class ChartServlet extends HttpServlet {
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
      response.setContentType("application/json");
-     response.getOutputStream().println(movieInfoArray.toString());
+     response.getOutputStream().println(movieInfos.toString());
    }
 }

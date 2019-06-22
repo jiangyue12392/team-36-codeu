@@ -20,6 +20,8 @@ public class CsvLoader {
       String[] cells = line.split(",");
 
       JsonObject obj = new JsonObject();
+      if (cells.length > 0 && cells.length != headers.length)
+        throw new IllegalArgumentException("Corrupted csv file!");
       for (int i = 0; i < cells.length; i++) {
         obj.addProperty(headers[i], cells[i]);
       }
