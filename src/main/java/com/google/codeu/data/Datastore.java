@@ -48,10 +48,6 @@ public class Datastore {
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 
     datastore.put(messageEntity);
-
-    System.out.println("successfully stored message");
-    System.out.println(message.getSentimentScore());
-
   }
 
   /**
@@ -86,6 +82,9 @@ public class Datastore {
     return messages;
   }
 
+  /*
+   * Constructs a new message with all the message entities
+   */
   private List<Message> getMessagesHelperFunction(Query query){
     List<Message> messages = new ArrayList<>();
 
@@ -94,28 +93,20 @@ public class Datastore {
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
-        System.out.println("successfully read the message entity ID");
         UUID id = UUID.fromString(idString);
         String user = (String) entity.getProperty("user");
-        System.out.println("successfully read the message entity USER");
         String text = (String) entity.getProperty("text");
-        System.out.println("successfully read the message entity TEXT");
         long timestamp = (long) entity.getProperty("timestamp");
-        System.out.println("successfully read the message entity TIMESTAMP");
         double sentimentScore = (double) entity.getProperty("sentimentScore");
-        System.out.println("successfully read the message entity SCORE");
 
         Message message = new Message(id, user, text, timestamp, sentimentScore);
         messages.add(message);
-        System.out.println("successfully retrieved message");
-        System.out.println(sentimentScore);
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
-
     return messages;
   }
 
