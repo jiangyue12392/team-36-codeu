@@ -68,7 +68,10 @@ public class MessageServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Stores a new {@link Message}. */
+  /** Stores a new {@link Message}.  */
+  /** Checks whether message entered by user has an image link, and if one is found,
+      converts it into an image to be displayed */
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -81,11 +84,8 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    UrlValidator defaultValidator = new UrlValidator();
-
+    //Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
-
-    System.out.println("Text is:" + userText);
 
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(userText);
@@ -94,15 +94,18 @@ public class MessageServlet extends HttpServlet {
       url = matcher.group();
     }
 
+    //Validating the URL
+    UrlValidator defaultValidator = new UrlValidator();
+
     if (defaultValidator.isValid(url)) {
       String replacement = "<img src=\"$1\" />";
       String textWithImagesReplaced = userText.replaceAll(regex, replacement);
       Message message = new Message(user, textWithImagesReplaced);
-      datastore.storeMessage(message);
     } else {
         Message message = new Message(user, userText);
-        datastore.storeMessage(message);
     }
+
+    datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }

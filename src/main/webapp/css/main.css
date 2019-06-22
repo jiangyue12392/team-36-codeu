@@ -31,6 +31,7 @@ nav li {
   margin-right: 10px
 }
 
+/* Standardise the image size and style for all messages. */
 .message-body img {
   display: block;
   margin-top: 25px;
