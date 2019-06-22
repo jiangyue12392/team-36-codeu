@@ -27,7 +27,7 @@ function buildMessageDiv(message){
 
   const sentimentScoreDiv = document.createElement('div');
   sentimentScoreDiv.classList.add('right-align');
-  sentimentScoreDiv.appendChild(document.createTextNode(message.sentimentScore));
+  sentimentScoreDiv.appendChild(document.createTextNode(message.sentimentScore.toFixed(2)));
 
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');

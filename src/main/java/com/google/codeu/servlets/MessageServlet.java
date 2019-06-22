@@ -86,7 +86,7 @@ public class MessageServlet extends HttpServlet {
         .setContent(text).setType(Document.Type.PLAIN_TEXT).build();
     LanguageServiceClient languageService = LanguageServiceClient.create();
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    float score = sentiment.getScore();
+    double score = sentiment.getScore();
     //System.out.println("Sentiment Score = " + score);
     languageService.close();
 

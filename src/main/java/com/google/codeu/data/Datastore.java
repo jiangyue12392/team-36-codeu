@@ -102,7 +102,7 @@ public class Datastore {
         System.out.println("successfully read the message entity TEXT");
         long timestamp = (long) entity.getProperty("timestamp");
         System.out.println("successfully read the message entity TIMESTAMP");
-        Float sentimentScore = (Float) entity.getProperty("sentimentScore");
+        double sentimentScore = (double) entity.getProperty("sentimentScore");
         System.out.println("successfully read the message entity SCORE");
 
         Message message = new Message(id, user, text, timestamp, sentimentScore);
