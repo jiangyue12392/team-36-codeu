@@ -45,8 +45,8 @@ public class MessageServlet extends HttpServlet {
   }
 
   /**
-   * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
-   * an empty array if the user is not provided.
+   * Responds with a JSON representation of {@link Message} data for a specific
+   * user. Responds with an empty array if the user is not provided.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -68,9 +68,11 @@ public class MessageServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Stores a new {@link Message}.  */
-  /** Checks whether message entered by user has an image link, and if one is found,
-      converts it into an image to be displayed */
+  /** Stores a new {@link Message}. */
+  /**
+   * Checks whether message entered by user has an image link, and if one is
+   * found, converts it into an image to be displayed
+   */
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -84,7 +86,10 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    //Checking text against set regex. If there is a match, variable url is set to equal it
+    /*
+     * Checking text against set regex. If there is a match, variable url is set to
+     * equal it
+     */
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
 
     Pattern pattern = Pattern.compile(regex);
@@ -94,7 +99,7 @@ public class MessageServlet extends HttpServlet {
       url = matcher.group();
     }
 
-    //Validating the URL
+    // Validating the URL
     UrlValidator defaultValidator = new UrlValidator();
 
     if (defaultValidator.isValid(url)) {
@@ -103,8 +108,8 @@ public class MessageServlet extends HttpServlet {
       Message message = new Message(user, textWithImagesReplaced);
       datastore.storeMessage(message);
     } else {
-        Message message = new Message(user, userText);
-        datastore.storeMessage(message);
+      Message message = new Message(user, userText);
+      datastore.storeMessage(message);
     }
 
     response.sendRedirect("/user-page.html?user=" + user);
