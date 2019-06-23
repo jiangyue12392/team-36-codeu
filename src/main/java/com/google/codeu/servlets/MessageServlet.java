@@ -101,11 +101,11 @@ public class MessageServlet extends HttpServlet {
       String replacement = "<img src=\"$1\" />";
       String textWithImagesReplaced = userText.replaceAll(regex, replacement);
       Message message = new Message(user, textWithImagesReplaced);
+      datastore.storeMessage(message);
     } else {
         Message message = new Message(user, userText);
+        datastore.storeMessage(message);
     }
-
-    datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
