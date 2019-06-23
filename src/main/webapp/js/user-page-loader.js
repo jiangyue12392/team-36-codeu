@@ -40,8 +40,15 @@ function showMessageFormIfViewingSelf() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn &&
             loginStatus.username == parameterUsername) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.classList.remove('hidden');
+          fetch('/blobstore-upload-url')
+            .then((response) => {
+              return response.text();
+            })
+            .then((imageUploadUrl) => {
+              const messageForm = document.getElementById('message-form');
+              messageForm.action = imageUploadUrl;
+              messageForm.classList.remove('hidden');
+            });
         }
       });
 }
