@@ -96,7 +96,8 @@ public class MessageServlet extends HttpServlet {
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
     String imageUrl = getUploadedFileUrl(request, "image");
-    userText = userText + " " + imageUrl; 
+    String imageToInsert = "<img src=\"" + imageUrl + "\">";
+    userText = userText + " " + imageToInsert; 
 
     /*
      * Checking text against set regex. If there is a match, variable url is set to
