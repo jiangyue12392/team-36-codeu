@@ -47,7 +47,6 @@ public class MarkerServlet extends HttpServlet {
   /** Fetches markers from Datastore. */
   private List<Marker> getMarkers() {
     List<Marker> markers = new ArrayList<>();
-
     Query query = new Query("Marker");
     PreparedQuery results = datastore.prepare(query);
 
