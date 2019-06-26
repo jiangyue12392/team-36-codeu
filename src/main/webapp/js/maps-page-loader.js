@@ -7,22 +7,23 @@ const MAP_NIGHT_TYPE_ID = 'night'
  * New modes/map styles can be added in extraMapStyles.json file.
  *
  */
-function fetchNightStyleJSONValues() {
+function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
   fetch(url)
     .then(response => response.json())
     .then(data => addDiffStylesToMap(data.Night));
 }
 
-function addDiffStylesToMap(nightStyle){
+function addDiffStylesToMap(mapStyle){
   // Create a new StyledMapType object, passing it an array of styles,
   // and the name to be displayed on the map type control.
-  const styledMapType = new google.maps.StyledMapType(nightStyle,{name: 'Night'});
+  mapStyleName = 'Night';
+  const styledMapType = new google.maps.StyledMapType(mapStyle, {name: mapStyleName});
 
-  createNightStyledMap(styledMapType);
+  createStyledMap(styledMapType);
 }
 
-function createNightStyledMap(styledMapType){
+function createStyledMap(styledMapType){
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
   const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
@@ -54,6 +55,6 @@ function createCinemaLocationsMap(map){
   }));
 }
 
-function buildUI(){
-  fetchNightStyleJSONValues();
+function buildUI() {
+  fetchConfigAndBuildMap();
 }

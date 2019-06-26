@@ -16,12 +16,13 @@ import java.util.Scanner;
 @WebServlet("/cinema-data")
 public class CinemaLocationServlet extends HttpServlet {
   private JsonArray cinemaLocationsArray;
+  static String cinemaLocationsFilePath = "/WEB-INF/cinemaLocations.csv";
 
   @Override
   public void init() {
     cinemaLocationsArray = new JsonArray();
     Gson gson = new Gson();
-    Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/cinemaLocations.csv"));
+    Scanner scanner = new Scanner(getServletContext().getResourceAsStream(cinemaLocationsFilePath));
     while(scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
