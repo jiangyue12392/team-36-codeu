@@ -96,16 +96,19 @@ public class MessageServlet extends HttpServlet {
 
     //Validating the URL
     UrlValidator defaultValidator = new UrlValidator();
+    Message message;
 
     if (defaultValidator.isValid(url)) {
       String replacement = "<img src=\"$1\" />";
       String textWithImagesReplaced = userText.replaceAll(regex, replacement);
       Message message = new Message(user, textWithImagesReplaced);
-      datastore.storeMessage(message);
+      message = new Message(user, textWithImagesReplaced);
     } else {
-        Message message = new Message(user, userText);
-        datastore.storeMessage(message);
+      Message message = new Message(user, userText);
+      message = new Message(user, userText);
     }
+
+    datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
