@@ -101,10 +101,8 @@ public class MessageServlet extends HttpServlet {
     if (defaultValidator.isValid(url)) {
       String replacement = "<img src=\"$1\" />";
       String textWithImagesReplaced = userText.replaceAll(regex, replacement);
-      Message message = new Message(user, textWithImagesReplaced);
       message = new Message(user, textWithImagesReplaced);
     } else {
-      Message message = new Message(user, userText);
       message = new Message(user, userText);
     }
 
