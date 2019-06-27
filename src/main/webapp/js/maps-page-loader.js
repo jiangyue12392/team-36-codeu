@@ -2,8 +2,8 @@ const MAP_ELEMENT_ID = 'map';
 const MAP_NIGHT_TYPE_ID = 'night'
 /**
  * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
- * Map styles are different modes that will be displayed to the user (The user can switch around with button)
- * Added night mode (the static configs for that style is in extraMapStyles.json)
+ * Map styles are different modes that will be displayed to the user
+ * Added night mode (static configs for that style in extraMapStyles.json)
  * New modes/map styles can be added in extraMapStyles.json file.
  *
  */
@@ -12,45 +12,58 @@ let map;
 /* Editable marker that displays when a user clicks in the map. */
 let editMarker;
 
-function initConfigMap() {
-  $.getJSON("/json/extraMapStyles.json", function(json) {
-    // Create a new StyledMapType object, passing it an array of styles,
-    // and the name to be displayed on the map type control.
-    const styledMapType = new google.maps.StyledMapType(json.Night,{name: 'Night'});
+function fetchConfigAndBuildMap() {
+  const url = '/json/extraMapStyles.json';
+  fetch(url)
+    .then(response => response.json())
+    .then(data => addDiffStylesToMap(data.Night));
+}
 
-    // Create a map object, and include the MapTypeId to add
-    // to the map type control.
-    map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
-      center: {lat: 1.2764558, lng: 103.7996469},
-      zoom: 16,
-      mapTypeControlOptions: {
-        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
-      }
-    });
+function addDiffStylesToMap(mapStyle){
+  // Create a new StyledMapType object, passing it an array of styles,
+  // and the name to be displayed on the map type control.
+  mapStyleName = 'Night';
+  const styledMapType = new google.maps.StyledMapType(mapStyle, {name: mapStyleName});
 
-    // Place a marker on the map at the specified position
-    const trexMarker = new google.maps.Marker({
-      position: {lat: 1.2765, lng: 103.8},
-      map: map,
-      title: 'Stan the T-Rex'
-    });
+  createStyledMap(styledMapType);
+}
 
-    // Have a pop-up window over the marker
-    const trexInfoWindow = new google.maps.InfoWindow({
-      content: 'This is Stan, the T-Rex statue.'
-    });
-    trexInfoWindow.open(map, trexMarker);
-
-    // Associate the styled map with the MapTypeId and set it to display.
-    map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
-    map.setMapTypeId(MAP_NIGHT_TYPE_ID);
-
-    // When the user clicks in the map, show a marker with a text box the user can edit.
-    map.addListener('click', (event) => {
-      createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
-    });
-    fetchMarkers();
+function createStyledMap(styledMapType){
+  // Create a map object, and include the MapTypeId to add
+  // to the map type control.
+  map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
+    center: {lat: 1.290270, lng: 103.851959},
+    zoom: 13,
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
+    }
   });
+
+  // Associate the styled map with the MapTypeId and set it to display.
+  map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
+  map.setMapTypeId(MAP_NIGHT_TYPE_ID);
+
+  createCinemaLocationsMap(map);
+
+  // When the user clicks in the map, show a marker with a text box the user can edit.
+  map.addListener('click', (event) => {
+    createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+  });
+  fetchMarkers();
+}
+
+/**
+ * This function places markers of the cinema locations on the map.
+ */
+function createCinemaLocationsMap(map){
+  fetch('/cinema-data')
+    .then(response => response.json())
+    .then(cinemaLocations => cinemaLocations.forEach((cinemaLocation) => {
+    new google.maps.Marker({
+      position: {lat: cinemaLocation.lat, lng: cinemaLocation.lng},
+      map: map
+    });
+  }));
 }
 
 /** Fetches markers from the backend and adds them to the map. */
@@ -127,4 +140,8 @@ function buildInfoWindowInput(lat, lng){
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(button);
   return containerDiv;
+}
+
+function buildUI() {
+  fetchConfigAndBuildMap();
 }
