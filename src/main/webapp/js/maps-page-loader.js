@@ -106,6 +106,7 @@ function createMarkerForEdit(lat, lng){
   // Removes the marker when the user closes the editable info window.
   google.maps.event.addListener(infoWindow, 'closeclick', () => {
     editMarker.setMap(null);
+    editMarker = null;
   });
   infoWindow.open(map, editMarker);
 }
@@ -119,6 +120,7 @@ function buildInfoWindowInput(lat, lng){
     postMarker(lat, lng, textBox.value);
     createMarkerForDisplay(lat, lng, textBox.value);
     editMarker.setMap(null);
+    editMarker = null;
   };
   const containerDiv = document.createElement('div');
   containerDiv.appendChild(textBox);
