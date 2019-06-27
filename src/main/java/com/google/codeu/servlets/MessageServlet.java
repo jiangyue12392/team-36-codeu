@@ -81,13 +81,12 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    //Perform sentiment analysis when the user submits a message
+    // Perform sentiment analysis when the user submits a message
     Document doc = Document.newBuilder()
         .setContent(text).setType(Document.Type.PLAIN_TEXT).build();
     LanguageServiceClient languageService = LanguageServiceClient.create();
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
     double score = sentiment.getScore();
-    //System.out.println("Sentiment Score = " + score);
     languageService.close();
 
     Message message = new Message(user, text, score);
