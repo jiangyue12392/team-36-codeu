@@ -26,10 +26,13 @@ import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -68,7 +71,10 @@ public class MessageServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Stores a new {@link Message}. */
+  /** Stores a new {@link Message}.  */
+  /** Checks whether message entered by user has an image link, and if one is found,
+      converts it into an image to be displayed */
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -79,7 +85,29 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
+    //Checking text against set regex. If there is a match, variable url is set to equal it
+    String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
+
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(userText);
+    String url = "";
+    while (matcher.find()) {
+      url = matcher.group();
+    }
+
+    //Validating the URL
+    UrlValidator defaultValidator = new UrlValidator();
+    Message message;
+
+    if (defaultValidator.isValid(url)) {
+      String replacement = "<img src=\"$1\" />";
+      String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+      message = new Message(user, textWithImagesReplaced);
+    } else {
+      message = new Message(user, userText);
+    }
 
     // Perform sentiment analysis when the user submits a message
     Document doc = Document.newBuilder()

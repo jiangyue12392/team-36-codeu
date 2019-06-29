@@ -30,3 +30,10 @@ nav li {
   display: inline-block;
   margin-right: 10px
 }
+
+/* Standardise the image size and style for all messages. */
+.message-body img {
+  display: block;
+  margin-top: 25px;
+  max-width: 75%;
+}
