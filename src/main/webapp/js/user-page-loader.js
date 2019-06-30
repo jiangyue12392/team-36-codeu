@@ -41,9 +41,7 @@ function showMessageFormIfViewingSelf() {
         if (loginStatus.isLoggedIn &&
             loginStatus.username == parameterUsername) {
           fetch('/blobstore-upload-url')
-            .then((response) => {
-              return response.text();
-            })
+            .then((response) => response.text())
             .then((imageUploadUrl) => {
               const messageForm = document.getElementById('message-form');
               messageForm.action = imageUploadUrl;
