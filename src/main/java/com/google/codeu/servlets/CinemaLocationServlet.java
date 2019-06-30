@@ -23,6 +23,8 @@ public class CinemaLocationServlet extends HttpServlet {
     cinemaLocationsArray = new JsonArray();
     Gson gson = new Gson();
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream(cinemaLocationsFilePath));
+    // Skip the title line
+    scanner.nextLine();
     while(scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");

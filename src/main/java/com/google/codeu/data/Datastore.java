@@ -50,6 +50,16 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
+  /** Stores the Marker in Datastore. */
+  public void storeMarker(Marker marker) {
+    Entity markerEntity = new Entity("Marker", marker.getKey());
+    markerEntity.setProperty("lat", marker.getLat());
+    markerEntity.setProperty("lng", marker.getLng());
+    markerEntity.setProperty("content", marker.getContent());
+
+    datastore.put(markerEntity);
+  }
+
   /**
    * Gets messages posted by a specific user.
    *

@@ -3,6 +3,7 @@ package com.google.codeu.data;
 /** A single marker produced by a user. */
 public class Marker {
 
+  private String key;
   private double lat;
   private double lng;
   private String content;
@@ -13,9 +14,14 @@ public class Marker {
    * is placed.
    */
   public Marker(double lat, double lng, String content) {
+    this.key = Double.toString(lat) + '-' + Double.toString(lng);
     this.lat = lat;
     this.lng = lng;
     this.content = content;
+  }
+
+  public String getKey() {
+    return key;
   }
 
   public double getLat() {
