@@ -22,18 +22,22 @@ function buildMessageDiv(message){
   usernameDiv.appendChild(document.createTextNode(message.user));
 
   const timeDiv = document.createElement('div');
-  timeDiv.classList.add('right-align');
+  timeDiv.classList.add('center-align');
   timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
+
+  const sentimentScoreDiv = document.createElement('div');
+  sentimentScoreDiv.classList.add('right-align');
+  sentimentScoreDiv.appendChild(document.createTextNode(message.sentimentScore.toFixed(2)));
 
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(usernameDiv);
   headerDiv.appendChild(timeDiv);
+  headerDiv.appendChild(sentimentScoreDiv);
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.appendChild(document.createTextNode(message.text));
-
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("message-div");
   messageDiv.appendChild(headerDiv);
