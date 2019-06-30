@@ -45,6 +45,7 @@ public class Datastore {
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 
     datastore.put(messageEntity);
   }
@@ -81,6 +82,9 @@ public class Datastore {
     return messages;
   }
 
+  /*
+   * Constructs a new message with all the message entities
+   */
   private List<Message> getMessagesHelperFunction(Query query){
     List<Message> messages = new ArrayList<>();
 
@@ -93,8 +97,9 @@ public class Datastore {
         String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+        double sentimentScore = (double) entity.getProperty("sentimentScore");
 
-        Message message = new Message(id, user, text, timestamp);
+        Message message = new Message(id, user, text, timestamp, sentimentScore);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -102,7 +107,6 @@ public class Datastore {
         e.printStackTrace();
       }
     }
-
     return messages;
   }
 
@@ -148,4 +152,6 @@ public class Datastore {
     }
     return maxLength;
   }
+
+
 }
