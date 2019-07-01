@@ -16,43 +16,121 @@ limitations under the License.
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>About Us</title>
-    <link rel="stylesheet" href="/css/main.css">
-  </head>
-  <body>
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-        <li><a href="/feed.html">Public Feed Page</a></li>
-        <li><a href="/community.html">Community Page</a></li>
-      </ul>
-    </nav>
-    <h1>About Our Team</h1>
-    <h2>Teammate A - Fang Ran (Reine)</h2>
-    <ul>
-      <img src="./images/Reine.jpg" alt="Reine" width="200"
-           height="200">
-      <li>Summer Feelz: Excited but nervous</li>
-      <li>Aspirational Hobby: To be able to write and express myself. </li>
-      <li>Ask me About: Art and Music</li>
-    </ul>
-    <h2>Teammate B - Jiang Yue</h2>
-    <ul>
-      <img src="./images/Ali.jpg" alt="Ali" width="200"
-           height="200">
-      <li>Summer Feelz: excited, happy and at ease</li>
-      <li>Aspirational Hobby: playing guitar</li>
-      <li>Ask me About: weiqi(go)</li>
-    </ul>
-    <h2>Teammate C Meghana Narayanan</h2>
-    <ul>
-      <img src ="./images/Meghana.jpg" width="200" height="200">
-      <li>Summer Feelz: Motivated, excited, productive</li>
-      <li>Aspirational Hobby: Trekking in the Himalayas</li>
-      <li>Ask me About: Vegetarianism</li>
-    </ul>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>About Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/aboutus_style.css">
+</head>
+<body>
+<script type = "text/javascript" src="/js/swiper.min.js"></script>
+<nav>
+  <ul id="navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="/aboutus.html">About Our Team</a></li>
+    <li><a href="/feed.html">Public Feed Page</a></li>
+    <li><a href="/community.html">Community Page</a></li>
+  </ul>
+</nav>
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="images/Reine_1.jpg" alt="">
+      </div>
+      <div class="details">
+        <h3>Ran Fang<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="" alt="Reine">
+      </div>
+      <div class="details">
+        <h3>Ran Fang<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="images/Ali_1.jpg" alt="">
+      </div>
+      <div class="details">
+        <h3>Jiang Yue<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="" alt="Yue">
+      </div>
+      <div class="details">
+        <h3>Jiang Yue<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="images/Meg_1.jpg" alt="">
+      </div>
+      <div class="details">
+        <h3>Meghana<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="" alt="Meg">
+      </div>
+      <div class="details">
+        <h3>Meghana<br><span>CodeU Student</span></h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+</div>
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows : true,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+    },
+  });
+</script>
+<!--<h1>About Our Team</h1>
+<h2>Teammate A - Fang Ran (Reine)</h2>
+<ul>
+  <img src="./images/Reine.jpg" alt="Reine" width="200"
+       height="200">
+  <li>Summer Feelz: Excited but nervous</li>
+  <li>Aspirational Hobby: To be able to write and express myself. </li>
+  <li>Ask me About: Art and Music</li>
+</ul>
+<h2>Teammate B - Jiang Yue</h2>
+<ul>
+  <img src="./images/Ali.jpg" alt="Ali" width="200"
+       height="200">
+  <li>Summer Feelz: excited, happy and at ease</li>
+  <li>Aspirational Hobby: playing guitar</li>
+  <li>Ask me About: weiqi(go)</li>
+</ul>
+<h2>Teammate C Meghana Narayanan</h2>
+<ul>
+  <img src ="./images/Meghana.jpg" width="200" height="200">
+  <li>Summer Feelz: Motivated, excited, productive</li>
+  <li>Aspirational Hobby: Trekking in the Himalayas</li>
+  <li>Ask me About: Vegetarianism</li>
+</ul>-->
+</body>
 </html>
