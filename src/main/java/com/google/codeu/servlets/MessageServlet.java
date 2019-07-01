@@ -16,6 +16,7 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.Document;
@@ -86,6 +87,9 @@ public class MessageServlet extends HttpServlet {
 
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+
+    //Obtain and set Keys
+    // String parentKey = marker.getKey();
 
     //Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";

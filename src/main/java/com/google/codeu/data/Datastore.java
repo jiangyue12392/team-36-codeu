@@ -46,6 +46,8 @@ public class Datastore {
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+    messageEntity.setProperty("defaultKey", message.getDefaultKey());
+    messageEntity.setProperty("parentKey", message.getParentKey());
 
     datastore.put(messageEntity);
   }
@@ -110,11 +112,37 @@ public class Datastore {
     return messages;
   }
 
+  /* Returns all the messages based on the parentKey */
+  public List<Message> getMessagesForParentKey(String key) {
+    List<Message> messages = new ArrayList<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      String parentKey = (String) entity.getProperty("parentKey");
+      if (parentKey == key) {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        double sentimentScore = (double) entity.getProperty("sentimentScore");
+        String defaultKey = (String) entity.getProperty("defaultKey");
+        String parentKey = (String) entity.getProperty("parentKey");
+
+        Message message = new Message(id, user, text, timestamp, sentimentScore, defaultKey, parentKey);
+        messages.add(message);
+      }
+    }
+    
+    return messages;
+  }
+
   /**
    * Gets all users
    * @return a list of user strings or empty string if there is no user
    */
-  public Set<String> getUsers(){
+  public Set<String> getUsers() {
     Set<String> users = new HashSet<>();
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
@@ -123,12 +151,13 @@ public class Datastore {
     }
     return users;
   }
+
   /**
    * Gets number of total messages
    *
    * @return the total number of messages for all users.
    */
-  public int getTotalMessageCount(){
+  public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
