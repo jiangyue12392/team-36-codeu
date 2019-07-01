@@ -16,24 +16,132 @@
 
 /* Prevent the page from becoming too wide. */
 body {
-  max-width: 600px;
+  /*max-width: 600px;*/
+  margin: 0;
+  padding: 0;
 }
+
+section {
+  width: 100%; /*try vh*/
+  height:100vh;
+}
+
+section .layer2 {
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(/images/cinema_8.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  transition:2s;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 54%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  color: #000000;
+  font-size: 3em;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+}
+
+h1 span {
+  opacity: 0;
+  display: inline-block;
+  animation: animate 3s linear forwards;
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0;
+    transform: rotateY(90deg);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg);
+    filter:blur(0);
+  }
+}
+
+section .layer1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 450px;
+  background: url(/images/cinema_8.jpg);
+  background-position: center;
+  opacity:0.8;
+  z-index: 1;
+  transition: 2s;
+}
+
+.layer1:hover ~ .layer2 {
+  filter:blur(12px);
+}
+
+.layer1:hover {
+  box-shadow: 0 25px 60px rgba(0,0,0,.8);
+}
+
+
 
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;
   padding-left: 0;
 }
-
 /* Keep navigation menu on one line. */
 nav li {
   display: inline-block;
   margin-right: 10px
 }
 
-/* Standardise the image size and style for all messages. */
-.message-body img {
-  display: block;
-  margin-top: 25px;
-  max-width: 75%;
+header img {
+  height: 50px;
+  margin-left: 10px;
+}
+
+header {
+  background-color: brown;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 25px 0 black;
+}
+
+header * {
+  display: inline;
+}
+
+header li {
+  margin: 20px;
+}
+
+header li a {
+  color: aliceblue;
+  text-decoration: none;
+}
+
+
+
+#myTicket {
+  height: 100px;
+  width: 100px;
+  top:78%;
+  padding-left:43%;
+  position:fixed;
 }
