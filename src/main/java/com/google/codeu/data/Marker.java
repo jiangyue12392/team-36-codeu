@@ -3,10 +3,10 @@ package com.google.codeu.data;
 /** A single marker produced by a user. */
 public class Marker {
 
-  private String key;
   private double lat;
   private double lng;
   private String content;
+  private String key;
 
   /**
    * Constructs a new {@link Marker} posted by {@code user} with {@code text} content. Generates a
@@ -14,10 +14,14 @@ public class Marker {
    * is placed.
    */
   public Marker(double lat, double lng, String content) {
-    this.key = Double.toString(lat) + '-' + Double.toString(lng);
+    this(lat, lng, content, Double.toString(lat) + '-' + Double.toString(lng));
+  }
+
+  public Marker(double lat, double lng, String content, String key) {
     this.lat = lat;
     this.lng = lng;
     this.content = content;
+    this.key = key;
   }
 
   public String getKey() {

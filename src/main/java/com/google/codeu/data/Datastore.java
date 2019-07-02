@@ -92,6 +92,18 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Gets all markers.
+   *
+   * @return a list of all messages posted, or empty list if no messages have
+   *     been posted. List is sorted by time descending.
+   */
+  public List<Marker> getAllMarkers(){
+    Query query = new Query("Marker");
+    List<Marker> markers = getMarkersHelperFunction(query);
+    return markers;
+  }
+
   /*
    * Constructs a new message with all the message entities
    */
@@ -118,6 +130,32 @@ public class Datastore {
       }
     }
     return messages;
+  }
+
+  /*
+   * Constructs a list of markers with all the marker entities
+   */
+  private List<Marker> getMarkersHelperFunction(Query query){
+    List<Marker> markers = new ArrayList<>();
+
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String key = entity.getKey().getName();
+        double lat = (double) entity.getProperty("lat");
+        double lng = (double) entity.getProperty("lng");
+        String content = (String) entity.getProperty("content");
+
+        Marker marker = new Marker(lat, lng, content, key);
+        markers.add(marker);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return markers;
   }
 
   /**
