@@ -86,7 +86,7 @@ public class MessageServlet extends HttpServlet {
 
     // Get parentKey string if no key field key will be null
     String parentKey = request.getParameter("parentKey");
-    System.out.println(parentKey);
+    System.out.println(parentKey); // TODO: Remove after the post is changed
 
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());

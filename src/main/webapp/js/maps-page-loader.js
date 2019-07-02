@@ -88,7 +88,8 @@ function postMessage(parentKey, text){
 
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
 function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker){
-  // TODO: add user reviews grepping
+  const infoText = document.createTextNode(cinemaName);
+  // TODO: add user reviews grepping (Done with all message function)
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
   button.appendChild(document.createTextNode('Submit'));
@@ -98,6 +99,8 @@ function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker){
     createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
   };
   const containerDiv = document.createElement('div');
+  containerDiv.appendChild(infoText);
+  containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(textBox);
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(button);
