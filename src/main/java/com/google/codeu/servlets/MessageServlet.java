@@ -84,10 +84,14 @@ public class MessageServlet extends HttpServlet {
       return;
     }
 
+    // Get parentKey string if no key field key will be null
+    String parentKey = request.getParameter("parentKey");
+    System.out.println(parentKey);
+
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    //Checking text against set regex. If there is a match, variable url is set to equal it
+    // Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
 
     Pattern pattern = Pattern.compile(regex);
@@ -105,7 +109,7 @@ public class MessageServlet extends HttpServlet {
     double score = sentiment.getScore();
     languageService.close();
 
-    //Validating the URL
+    // Validating the URL
     UrlValidator defaultValidator = new UrlValidator();
     Message message;
 
