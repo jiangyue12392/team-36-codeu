@@ -104,7 +104,7 @@ function postMarker(lat, lng, content){
 }
 
 /** Creates a marker that shows a textbox the user can edit. */
-function createMarkerForEdit(lat, lng){
+function createMarkerForEdit(lat, lng) {
   // If an editable marker is already shown, remove it.
   if (editMarker) {
    editMarker.setMap(null);
@@ -125,7 +125,7 @@ function createMarkerForEdit(lat, lng){
 }
 
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
-function buildInfoWindowInput(lat, lng){
+function buildInfoWindowInput(lat, lng) {
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
   button.appendChild(document.createTextNode('Submit'));

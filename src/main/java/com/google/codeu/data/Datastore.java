@@ -112,29 +112,19 @@ public class Datastore {
     return messages;
   }
 
-  /* Returns all the messages based on the parentKey */
-  public List<Message> getMessagesForParentKey(String key) {
-    List<Message> messages = new ArrayList<>();
+  /* Returns all the message entities based on the parentKey */
+  public List<Entity> getMessagesForParentKey(String key) {
+    List<Entity> messages = new ArrayList<>();
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       String parentKey = (String) entity.getProperty("parentKey");
       if (parentKey == key) {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-        double sentimentScore = (double) entity.getProperty("sentimentScore");
-        String defaultKey = (String) entity.getProperty("defaultKey");
-        String parentKey = (String) entity.getProperty("parentKey");
-
-        Message message = new Message(id, user, text, timestamp, sentimentScore, defaultKey, parentKey);
-        messages.add(message);
+        messages.add(entity);
       }
     }
-    
+
     return messages;
   }
 
