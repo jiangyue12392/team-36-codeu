@@ -104,7 +104,7 @@ function postMarker(lat, lng, content){
 }
 
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
-function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker){
+function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker) {
   const infoText = document.createTextNode(cinemaName);
   // TODO: add user reviews grepping (Done with all message function)
   const textBox = document.createElement('textarea');
