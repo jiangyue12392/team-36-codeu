@@ -26,7 +26,6 @@ public class Message {
   private String text;
   private long timestamp;
   private double sentimentScore;
-  private String parentKey;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
@@ -36,13 +35,12 @@ public class Message {
     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), sentimentScore);
   }
 
-  public Message(String user, String text, double sentimentScore, long timestamp, String parentKey) {
+  public Message(String user, String text, double sentimentScore, long timestamp) {
     this.id = id;
     this.user = user;
     this.text = text;
     this.sentimentScore = sentimentScore;
     this.timestamp = timestamp;
-    this.parentKey = parentKey;
   }
 
   public Message(UUID id, String user, String text, long timestamp, double sentimentScore) {
@@ -73,7 +71,4 @@ public class Message {
     return sentimentScore;
   }
 
-  public String getParentKey() {
-    return parentKey;
-  }
 }

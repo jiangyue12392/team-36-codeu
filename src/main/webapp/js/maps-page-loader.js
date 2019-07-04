@@ -103,39 +103,21 @@ function postMarker(lat, lng, content){
   });
 }
 
-/** Creates a marker that shows a textbox the user can edit. */
-function createMarkerForEdit(lat, lng) {
-  // If an editable marker is already shown, remove it.
-  if (editMarker) {
-   editMarker.setMap(null);
-  }
-  editMarker = new google.maps.Marker({
-    position: {lat: lat, lng: lng},
-    map: map
-  });
-  const infoWindow = new google.maps.InfoWindow({
-    content: buildInfoWindowInput(lat, lng)
-  });
-  // Removes the marker when the user closes the editable info window.
-  google.maps.event.addListener(infoWindow, 'closeclick', () => {
-    editMarker.setMap(null);
-    editMarker = null;
-  });
-  infoWindow.open(map, editMarker);
-}
-
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
-function buildInfoWindowInput(lat, lng) {
+function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker){
+  const infoText = document.createTextNode(cinemaName);
+  // TODO: add user reviews grepping (Done with all message function)
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
   button.appendChild(document.createTextNode('Submit'));
   button.onclick = () => {
-    postMarker(lat, lng, textBox.value);
-    createMarkerForDisplay(lat, lng, textBox.value);
-    editMarker.setMap(null);
-    editMarker = null;
+    postMessage(key, textBox.value);
+    marker.setMap(null);
+    createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
   };
   const containerDiv = document.createElement('div');
+  containerDiv.appendChild(infoText);
+  containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(textBox);
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(button);

@@ -6,6 +6,7 @@ public class Marker {
   private double lat;
   private double lng;
   private String content;
+  private String key;
 
   /**
    * Constructs a new {@link Marker} posted by {@code user} with {@code text} content. Generates a
@@ -13,9 +14,18 @@ public class Marker {
    * is placed.
    */
   public Marker(double lat, double lng, String content) {
+    this(lat, lng, content, Double.toString(lat) + '-' + Double.toString(lng));
+  }
+
+  public Marker(double lat, double lng, String content, String key) {
     this.lat = lat;
     this.lng = lng;
     this.content = content;
+    this.key = key;
+  }
+
+  public String getKey() {
+    return key;
   }
 
   public double getLat() {

@@ -52,6 +52,16 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
+  /** Stores the Marker in Datastore. */
+  public void storeMarker(Marker marker) {
+    Entity markerEntity = new Entity("Marker", marker.getKey());
+    markerEntity.setProperty("lat", marker.getLat());
+    markerEntity.setProperty("lng", marker.getLng());
+    markerEntity.setProperty("content", marker.getContent());
+
+    datastore.put(markerEntity);
+  }
+
   /**
    * Gets messages posted by a specific user.
    *
@@ -84,6 +94,18 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Gets all markers.
+   *
+   * @return a list of all messages posted, or empty list if no messages have
+   *     been posted. List is sorted by time descending.
+   */
+  public List<Marker> getAllMarkers(){
+    Query query = new Query("Marker");
+    List<Marker> markers = getMarkersHelperFunction(query);
+    return markers;
+  }
+
   /*
    * Constructs a new message with all the message entities
    */
@@ -111,6 +133,31 @@ public class Datastore {
     }
     return messages;
   }
+  
+  /*
+   * Constructs a list of markers with all the marker entities
+   */
+  private List<Marker> getMarkersHelperFunction(Query query){
+    List<Marker> markers = new ArrayList<>();
+
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String key = entity.getKey().getName();
+        double lat = (double) entity.getProperty("lat");
+        double lng = (double) entity.getProperty("lng");
+        String content = (String) entity.getProperty("content");
+
+        Marker marker = new Marker(lat, lng, content, key);
+        markers.add(marker);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return markers;
 
   /* Returns all the message entities based on the parentKey */
   public List<Entity> getMessagesForParentKey(String key) {
@@ -126,6 +173,7 @@ public class Datastore {
     }
 
     return messages;
+
   }
 
   /**
