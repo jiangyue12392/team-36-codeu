@@ -24,6 +24,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.Document;
@@ -105,8 +106,11 @@ public class MessageServlet extends HttpServlet {
     String imageUrl = getUploadedFileUrl(request, "image");
     String imageToInsert = "<img src=\"" + imageUrl + "\">";
     userText = userText + " " + imageToInsert;
+    
+    // Obtain and set Keys
+    // String parentKey = marker.getKey();
 
-    // Checking text against set regex. If there is a match, variable url is set to equal it
+    //Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
 
     Pattern pattern = Pattern.compile(regex);
