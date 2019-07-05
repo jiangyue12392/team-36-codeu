@@ -11,6 +11,15 @@ const MAP_NIGHT_TYPE_ID = 'night'
 let map;
 /* Editable marker that displays when a user clicks in the map. */
 let editMarker;
+let marker;
+
+let chairIcon = {
+  url: '/images/seat.png',
+  //state your size parameters in terms of pixels
+  size: new google.maps.Size(40, 30),
+  scaledSize: new google.maps.Size(40, 30),
+  origin: new google.maps.Point(0,0)
+};
 
 function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
@@ -32,8 +41,8 @@ function createStyledMap(styledMapType){
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
   map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
-    center: {lat: 1.290270, lng: 103.851959},
-    zoom: 13,
+    center: {lat: 1.360860, lng: 103.823800},
+    zoom: 12,
     mapTypeControlOptions: {
       mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', MAP_NIGHT_TYPE_ID]
     }
@@ -61,7 +70,12 @@ function createCinemaLocationsMap(map){
     .then(cinemaLocations => cinemaLocations.forEach((cinemaLocation) => {
     new google.maps.Marker({
       position: {lat: cinemaLocation.lat, lng: cinemaLocation.lng},
-      map: map
+      map: map,
+      // set the icon as catIcon declared above
+      icon: chairIcon,
+      // must use optimized false for CSS
+      optimized: false,
+      animation: google.maps.Animation.DROP
     });
   }));
 }
