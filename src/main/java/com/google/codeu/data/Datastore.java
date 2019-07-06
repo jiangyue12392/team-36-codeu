@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -114,15 +116,15 @@ public class Datastore {
   /* Returns all the message entities based on the parentKey */
   public List<Entity> getMessagesForParentKey(String key) {
     List<Entity> messages = new ArrayList<>();
-    Query query = new Query("Message").setAncestor;
-    PreparedQuery results = datastore.prepare(query);
+    Query<Entity> query = Query.newEntityQueryBuilder()
+      .setKind("Message")
+      .setFilter(PropertyFilter.hasAncestor(
+          datastore.newKeyFactory().setKind("Marker").newKey("default")))
+      .build();
 
-    for (Entity entity : results.asIterable()) {
-      String parentKey = (String) entity.getProperty("parentKey");
-      if (parentKey == key) {
-        messages.add(entity);
-      }
-    }
+    // for (Entity entity : results.asIterable()) {
+    //     messages.add(entity);
+    // }
 
     return messages;
   }
