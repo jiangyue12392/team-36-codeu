@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Philosopher|Roboto&display=swap');
 
 /* Prevent the page from becoming too wide. */
 body {
@@ -22,7 +23,7 @@ body {
 }
 
 section {
-  width: 100%; /*try vh*/
+  width: 100%;
   height:100vh;
 }
 
@@ -91,52 +92,32 @@ section .layer1 {
 
 .layer1:hover {
   box-shadow: 0 25px 60px rgba(0,0,0,.8);
+  opacity:1;
 }
 
-
-
-/* Remove bullet points from navigation bar. */
-nav ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-/* Keep navigation menu on one line. */
-nav li {
-  display: inline-block;
-  margin-right: 10px
+.layer1:hover h1 {
+  animation: animate36 2s linear infinite;
 }
 
-header img {
-  height: 50px;
-  margin-left: 10px;
+@keyframes animate36 {
+  0% {
+    color:#fff;
+    text-shadow: 0 0 10px none;
+  }
+
+  100% {
+    color:#fff;
+    text-shadow: 0 0 10px #00b3ff,
+    0 0 20px #00b3ff,
+    0 0 40px #00b3ff,
+    0 0 60px #00b3ff,
+    0 0 80px #00b3ff,
+    0 0 120px #00b3ff,
+    0 0 200px #00b3ff,
+    0 0 300px #00b3ff,
+    0 0 400px #00b3ff;
+  }
 }
-
-header {
-  background-color: brown;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0 25px 0 black;
-}
-
-header * {
-  display: inline;
-}
-
-header li {
-  margin: 20px;
-}
-
-header li a {
-  color: aliceblue;
-  text-decoration: none;
-}
-
-
 
 #myTicket {
   height: 100px;
@@ -144,9 +125,8 @@ header li a {
   top:78%;
   padding-left:41%;
   position:fixed;
-  opacity: 0;
   display: inline-block;
-  animation: animateTix 5s linear infinite;
+  animation: animateTix 5s linear forwards;
 }
 
 @keyframes animateTix {

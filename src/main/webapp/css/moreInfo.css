@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Philosopher|Roboto&display=swap');
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -25,7 +27,8 @@
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
+    font-family: Philosopher, sans-serif;
 }
 
 /* The Close Button */
@@ -56,10 +59,12 @@
     bottom: 1em;
     right: 1em;
     text-align:center;
-    width: 65px;
+    width: 50px;
     height: 35px;
-    background-color:whitesmoke;
-    color:#000000;
+    background-color:brown;
+    color:whitesmoke;
+    font-family:Philosopher,sans-serif;
+    border-radius:20px;
 }
 
 /* Add Animation */
