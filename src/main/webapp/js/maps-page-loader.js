@@ -8,10 +8,6 @@ const MAP_NIGHT_TYPE_ID = 'night'
  *
  */
 
-let map;
-/* Editable marker that displays when a user clicks in the map. */
-let editMarker;
-
 function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
   fetch(url)
@@ -31,7 +27,7 @@ function addDiffStylesToMap(mapStyle){
 function createStyledMap(styledMapType){
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
-  map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
+  const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
     center: {lat: 1.290270, lng: 103.851959},
     zoom: 13,
     mapTypeControlOptions: {
@@ -43,82 +39,99 @@ function createStyledMap(styledMapType){
   map.mapTypes.set(MAP_NIGHT_TYPE_ID, styledMapType);
   map.setMapTypeId(MAP_NIGHT_TYPE_ID);
 
-  createCinemaLocationsMap(map);
-
-  // When the user clicks in the map, show a marker with a text box the user can edit.
-  map.addListener('click', (event) => {
-    createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
-  });
-  fetchMarkers();
+  createCinemaMarkers(map);
 }
 
 /**
- * This function places markers of the cinema locations on the map.
+ * This function fetches cinema markers from the backend and places them on the map.
  */
-function createCinemaLocationsMap(map){
-  fetch('/cinema-data')
-    .then(response => response.json())
-    .then(cinemaLocations => cinemaLocations.forEach((cinemaLocation) => {
-    new google.maps.Marker({
-      position: {lat: cinemaLocation.lat, lng: cinemaLocation.lng},
-      map: map
-    });
-  }));
-}
-
-/** Fetches markers from the backend and adds them to the map. */
-function fetchMarkers(){
-  fetch('/markers').then((response) => {
-    return response.json();
-  }).then((markers) => {
-    markers.forEach((marker) => {
-     createMarkerForDisplay(marker.lat, marker.lng, marker.content)
-    });
+async function createCinemaMarkers(map){
+  const fetchResult = fetch('/cinema-data');
+  const response = await fetchResult;
+  const jsonData = await response.json();
+  jsonData.forEach((cinemaMarker) => {
+    createCinemaMarkerForDisplay(map, cinemaMarker.lat, cinemaMarker.lng, cinemaMarker.content, cinemaMarker.key)
   });
 }
 
-/** Creates a marker that shows a read-only info window when clicked. */
-function createMarkerForDisplay(lat, lng, content){
-  const marker = new google.maps.Marker({
+// async function fetchTopFive(sub) {
+//   const URL = `https://www.reddit.com/r/${sub}/top/.json?limit=5`;
+//   const fetchResult = fetch(URL)
+//   const response = await fetchResult;
+//   const jsonData = await response.json();
+//   console.log(jsonData);
+// }
+
+
+/** Creates a marker that shows an info window with existing reviews and editable comment session
+ *for user when clicked.
+ */
+async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false){
+  const cinemaMarker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map
   });
-  var infoWindow = new google.maps.InfoWindow({
-    content: content
+
+  const infoText = document.createTextNode(cinemaName);
+
+  const containerDiv = document.createElement('div');
+  containerDiv.appendChild(infoText);
+  containerDiv.appendChild(document.createElement('br'));
+  containerDiv.appendChild(document.createElement('br'));
+
+  // console.log('/messagebykey?parentKey='+key);
+
+  await fetch('/messagebykey?parentKey='+key)
+  .then(response => response.json())
+  .then(messagesForKey => {
+    messagesForKey.forEach((message) => {
+      containerDiv.appendChild(document.createTextNode(message.text));
+      containerDiv.appendChild(document.createElement('br'));
+    });
   });
-  marker.addListener('click', () => {
-    infoWindow.open(map, marker);
+
+  const infoWindow = new google.maps.InfoWindow({
+    content: buildInfoWindowInput(map, lat, lng, cinemaName, key, cinemaMarker, containerDiv)
+  });
+  if (updateMode) {
+    infoWindow.open(map, cinemaMarker);
+  }
+  cinemaMarker.addListener('click', () => {
+    infoWindow.open(map, cinemaMarker);
   });
 }
 
-/** Sends a marker to the backend for saving. */
-function postMarker(lat, lng, content){
+/** Sends a message to the backend for saving. */
+function postMessage(parentKey, text){
   const params = new URLSearchParams();
-  params.append('lat', lat);
-  params.append('lng', lng);
-  params.append('content', content);
-  fetch('/markers', {
+  params.append('parentKey', parentKey);
+  params.append('text', text);
+  fetch('/marker-messages', {
     method: 'POST',
     body: params
   });
 }
 
+async function handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, text) {
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  await postMessage(key, text);
+  marker.setMap(null);
+  await delay(2000);
+  createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
+}
+
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
-function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker) {
-  const infoText = document.createTextNode(cinemaName);
-  // TODO: add user reviews grepping (Done with all message function)
+function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker, containerDiv) {
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
   button.appendChild(document.createTextNode('Submit'));
   button.onclick = () => {
-    postMessage(key, textBox.value);
-    marker.setMap(null);
-    createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
+    handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, textBox.value);
   };
-  const containerDiv = document.createElement('div');
-  containerDiv.appendChild(infoText);
+
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(textBox);
+  containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(button);
   return containerDiv;

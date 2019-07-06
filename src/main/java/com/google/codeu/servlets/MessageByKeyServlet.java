@@ -61,15 +61,19 @@ public class MessageByKeyServlet extends HttpServlet {
 
     String parentKey = request.getParameter("parentKey");
 
+    System.out.println("parent key = " + parentKey);
+
     if (parentKey == null || parentKey.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
 
-    List<Entity> messages = datastore.getMessagesForParentKey(parentKey);
+    List<Message> messages = datastore.getMessagesForParentKey(parentKey);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
+
+    System.out.println(json);
 
     response.getWriter().println(json);
   }

@@ -103,12 +103,14 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    String imageUrl = getUploadedFileUrl(request, "image");
-    String imageToInsert = "<img src=\"" + imageUrl + "\">";
-    userText = userText + " " + imageToInsert;
-    
     // Obtain and set Keys
     // String parentKey = marker.getKey();
+
+    String imageUrl = getUploadedFileUrl(request, "image");
+    if (imageUrl != "" && imageUrl != null) {
+      String imageToInsert = "<img src=\"" + imageUrl + "\">";
+      userText = userText + " " + imageToInsert;
+    }
 
     //Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";

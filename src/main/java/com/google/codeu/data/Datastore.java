@@ -43,15 +43,26 @@ public class Datastore {
 
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
-    Key parentKey;
-    Entity messageEntity = new Entity("Message", message.getId().toString(), parentKey);
+    Entity messageEntity = new Entity("Message", message.getId().toString());
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+    messageEntity.setProperty("parentKey", message.getParentKey());
 
     datastore.put(messageEntity);
   }
+
+  /** Stores the Marker in Datastore. */
+  public void storeMarker(Marker marker) {
+    Entity markerEntity = new Entity("Marker", marker.getKey());
+    markerEntity.setProperty("lat", marker.getLat());
+    markerEntity.setProperty("lng", marker.getLng());
+    markerEntity.setProperty("content", marker.getContent());
+
+    datastore.put(markerEntity);
+  }
+
 
   /**
    * Gets messages posted by a specific user.
@@ -68,6 +79,18 @@ public class Datastore {
     messages = getMessagesHelperFunction(query);
     return messages;
   }
+
+  /**
+  * Gets all markers.
+  *
+  * @return a list of all messages posted, or empty list if no messages have
+  *     been posted. List is sorted by time descending.
+  */
+ public List<Marker> getAllMarkers(){
+   Query query = new Query("Marker");
+   List<Marker> markers = getMarkersHelperFunction(query);
+   return markers;
+ }
 
   /**
    * Gets all messages.
@@ -101,8 +124,9 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         double sentimentScore = (double) entity.getProperty("sentimentScore");
+        String parentKey = (String) entity.getProperty("parentKey");
 
-        Message message = new Message(id, user, text, timestamp, sentimentScore);
+        Message message = new Message(id, user, text, timestamp, sentimentScore, parentKey);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -113,18 +137,41 @@ public class Datastore {
     return messages;
   }
 
-  /* Returns all the message entities based on the parentKey */
-  public List<Entity> getMessagesForParentKey(String key) {
-    List<Entity> messages = new ArrayList<>();
-    Query<Entity> query = Query.newEntityQueryBuilder()
-      .setKind("Message")
-      .setFilter(PropertyFilter.hasAncestor(
-          datastore.newKeyFactory().setKind("Marker").newKey("default")))
-      .build();
+  /*
+   * Constructs a list of markers with all the marker entities
+   */
+  private List<Marker> getMarkersHelperFunction(Query query){
+    List<Marker> markers = new ArrayList<>();
 
-    // for (Entity entity : results.asIterable()) {
-    //     messages.add(entity);
-    // }
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String key = entity.getKey().getName();
+        double lat = (double) entity.getProperty("lat");
+        double lng = (double) entity.getProperty("lng");
+        String content = (String) entity.getProperty("content");
+
+        Marker marker = new Marker(lat, lng, content, key);
+        markers.add(marker);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return markers;
+  }
+
+  /* Returns all the message entities based on the parentKey */
+  public List<Message> getMessagesForParentKey(String key) {
+    List<Message> messages;
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("parentKey", FilterOperator.EQUAL, key))
+            .addSort("timestamp", SortDirection.DESCENDING);
+    messages = getMessagesHelperFunction(query);
 
     return messages;
   }
