@@ -87,7 +87,7 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
  * This function fetches messages for the given parent key.
  */
 async function getMessagesForKey(key, containerDiv) {
-  await fetch('/messagebykey?parentKey='+key)
+  await fetch('/messagebykey?parentKey=' + key)
   .then(response => response.json())
   .then(messagesForKey => {
     messagesForKey.forEach((message) => {
@@ -112,6 +112,7 @@ async function handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, t
   const delay = ms => new Promise(res => setTimeout(res, ms));
   await postMessage(key, text);
   marker.setMap(null);
+  //set delay to ensure message is persisted in data store and can be retrieved to be shown in the info window
   await delay(4500);
   createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
 }
