@@ -22,17 +22,53 @@ limitations under the License.
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
   <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
   <link rel="stylesheet" type="text/css" href="/css/aboutus_style.css">
+  <link rel="stylesheet" type="text/css" href="/css/moreInfo.css">
+  <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+  <script type="text/javascript" src='js/main.js'></script>
+  <script type = "text/javascript" src="/js/swiper.min.js"></script>
+<!--  <script src="js/moreInfo-loader.js"></script>-->
+  <!--<script src="js/membersSwiper.js"></script>-->`
 </head>
 <body>
-<script type = "text/javascript" src="/js/swiper.min.js"></script>
-<nav>
+
+
+  <button id="myBtn">More Info</button>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Cinemas Review Site</h2>
+      </div>
+      <div class="modal-body">
+        <p>These are the members of Team 36</p>
+        <p>A project under Google's CodeU Programme.</p>
+      </div>
+    </div>
+  </div>
+  <script src="js/moreInfo-loader.js"></script>
+
+  <header>
+    <img src="images/popcornIcon.png" alt="Image not available">
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus.html">About Our Team</a></li>
+        <li><a href="/feed.html">Public Feed Page</a></li>
+        <li><a href="/community.html">Community Page</a></li>
+        <li><a href="/maps.html">Maps Page</a></li>
+      </ul>
+    </nav>
+  </header>
+<!--<nav>
   <ul id="navigation">
     <li><a href="/">Home</a></li>
     <li><a href="/aboutus.html">About Our Team</a></li>
     <li><a href="/feed.html">Public Feed Page</a></li>
     <li><a href="/community.html">Community Page</a></li>
   </ul>
-</nav>
+</nav>-->
 <div class="swiper-container">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
@@ -90,8 +126,10 @@ limitations under the License.
   <!-- Add Pagination -->
   <div class="swiper-pagination"></div>
 </div>
+
+
 <script>
-  var swiper = new Swiper('.swiper-container', {
+  new Swiper('.swiper-container', {
     effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
