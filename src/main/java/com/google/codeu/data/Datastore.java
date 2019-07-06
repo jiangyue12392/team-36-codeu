@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -46,9 +48,21 @@ public class Datastore {
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+    messageEntity.setProperty("parentKey", message.getParentKey());
 
     datastore.put(messageEntity);
   }
+
+  /** Stores the Marker in Datastore. */
+  public void storeMarker(Marker marker) {
+    Entity markerEntity = new Entity("Marker", marker.getKey());
+    markerEntity.setProperty("lat", marker.getLat());
+    markerEntity.setProperty("lng", marker.getLng());
+    markerEntity.setProperty("content", marker.getContent());
+
+    datastore.put(markerEntity);
+  }
+
 
   /**
    * Gets messages posted by a specific user.
@@ -65,6 +79,18 @@ public class Datastore {
     messages = getMessagesHelperFunction(query);
     return messages;
   }
+
+  /**
+  * Gets all markers.
+  *
+  * @return a list of all markers posted, or empty list if no markers have
+  *     been posted.
+  */
+ public List<Marker> getAllMarkers(){
+   Query query = new Query("Marker");
+   List<Marker> markers = getMarkersHelperFunction(query);
+   return markers;
+ }
 
   /**
    * Gets all messages.
@@ -98,8 +124,9 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         double sentimentScore = (double) entity.getProperty("sentimentScore");
+        String parentKey = (String) entity.getProperty("parentKey");
 
-        Message message = new Message(id, user, text, timestamp, sentimentScore);
+        Message message = new Message(id, user, text, timestamp, sentimentScore, parentKey);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -110,11 +137,50 @@ public class Datastore {
     return messages;
   }
 
+  /*
+   * Constructs a list of markers with all the marker entities
+   */
+  private List<Marker> getMarkersHelperFunction(Query query){
+    List<Marker> markers = new ArrayList<>();
+
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String key = entity.getKey().getName();
+        double lat = (double) entity.getProperty("lat");
+        double lng = (double) entity.getProperty("lng");
+        String content = (String) entity.getProperty("content");
+
+        Marker marker = new Marker(lat, lng, content, key);
+        markers.add(marker);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return markers;
+  }
+
+  /* Returns all the message entities based on the parentKey */
+  public List<Message> getMessagesForParentKey(String key) {
+    List<Message> messages;
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("parentKey", FilterOperator.EQUAL, key))
+            .addSort("timestamp", SortDirection.DESCENDING);
+    messages = getMessagesHelperFunction(query);
+
+    return messages;
+  }
+
   /**
    * Gets all users
    * @return a list of user strings or empty string if there is no user
    */
-  public Set<String> getUsers(){
+  public Set<String> getUsers() {
     Set<String> users = new HashSet<>();
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
@@ -123,12 +189,13 @@ public class Datastore {
     }
     return users;
   }
+
   /**
    * Gets number of total messages
    *
    * @return the total number of messages for all users.
    */
-  public int getTotalMessageCount(){
+  public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
