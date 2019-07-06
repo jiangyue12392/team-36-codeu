@@ -45,7 +45,7 @@ function createStyledMap(styledMapType){
 /**
  * This function fetches cinema markers from the backend and places them on the map.
  */
-async function createCinemaMarkers(map){
+async function createCinemaMarkers(map) {
   const fetchResult = fetch('/cinema-data');
   const response = await fetchResult;
   const jsonData = await response.json();
@@ -54,19 +54,10 @@ async function createCinemaMarkers(map){
   });
 }
 
-// async function fetchTopFive(sub) {
-//   const URL = `https://www.reddit.com/r/${sub}/top/.json?limit=5`;
-//   const fetchResult = fetch(URL)
-//   const response = await fetchResult;
-//   const jsonData = await response.json();
-//   console.log(jsonData);
-// }
-
-
 /** Creates a marker that shows an info window with existing reviews and editable comment session
  *for user when clicked.
  */
-async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false){
+async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false) {
   const cinemaMarker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map
@@ -79,16 +70,7 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(document.createElement('br'));
 
-  // console.log('/messagebykey?parentKey='+key);
-
-  await fetch('/messagebykey?parentKey='+key)
-  .then(response => response.json())
-  .then(messagesForKey => {
-    messagesForKey.forEach((message) => {
-      containerDiv.appendChild(document.createTextNode(message.text));
-      containerDiv.appendChild(document.createElement('br'));
-    });
-  });
+  await getMessagesForKey(key, containerDiv);
 
   const infoWindow = new google.maps.InfoWindow({
     content: buildInfoWindowInput(map, lat, lng, cinemaName, key, cinemaMarker, containerDiv)
@@ -101,8 +83,22 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
   });
 }
 
+/**
+ * This function fetches messages for the given parent key.
+ */
+async function getMessagesForKey(key, containerDiv) {
+  await fetch('/messagebykey?parentKey='+key)
+  .then(response => response.json())
+  .then(messagesForKey => {
+    messagesForKey.forEach((message) => {
+      containerDiv.appendChild(document.createTextNode(message.text));
+      containerDiv.appendChild(document.createElement('br'));
+    });
+  });
+}
+
 /** Sends a message to the backend for saving. */
-function postMessage(parentKey, text){
+function postMessage(parentKey, text) {
   const params = new URLSearchParams();
   params.append('parentKey', parentKey);
   params.append('text', text);
@@ -116,7 +112,7 @@ async function handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, t
   const delay = ms => new Promise(res => setTimeout(res, ms));
   await postMessage(key, text);
   marker.setMap(null);
-  await delay(2000);
+  await delay(4500);
   createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
 }
 
@@ -128,7 +124,6 @@ function buildInfoWindowInput(map, lat, lng, cinemaName, key, marker, containerD
   button.onclick = () => {
     handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, textBox.value);
   };
-
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(textBox);
   containerDiv.appendChild(document.createElement('br'));

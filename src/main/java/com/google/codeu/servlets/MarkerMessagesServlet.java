@@ -60,8 +60,7 @@ public class MarkerMessagesServlet extends HttpServlet {
 
   /** Stores a new {@link Message}. */
   /**
-   * Checks whether message entered by user has an image link, and if one is
-   * found, converts it into an image to be displayed
+   * Gets parent key parameter and creates a new message with it
    */
 
   @Override

@@ -69,7 +69,6 @@ public class MessageServlet extends HttpServlet {
     String user = request.getParameter("user");
 
     if (user == null || user.equals("")) {
-      // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
@@ -96,15 +95,8 @@ public class MessageServlet extends HttpServlet {
       return;
     }
 
-    // Get parentKey string if no key field key will be null
-    String parentKey = request.getParameter("parentKey");
-    System.out.println(parentKey); // TODO: Remove after the post is changed
-
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
-
-    // Obtain and set Keys
-    // String parentKey = marker.getKey();
 
     String imageUrl = getUploadedFileUrl(request, "image");
     if (imageUrl != "" && imageUrl != null) {

@@ -83,8 +83,8 @@ public class Datastore {
   /**
   * Gets all markers.
   *
-  * @return a list of all messages posted, or empty list if no messages have
-  *     been posted. List is sorted by time descending.
+  * @return a list of all markers posted, or empty list if no markers have
+  *     been posted.
   */
  public List<Marker> getAllMarkers(){
    Query query = new Query("Marker");

@@ -51,8 +51,7 @@ public class MessageByKeyServlet extends HttpServlet {
   }
 
   /**
-   * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
-   * an empty array if the user is not provided.
+   * Responds with a JSON representation of {@link Message} data for a specific parent key.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -60,8 +59,6 @@ public class MessageByKeyServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String parentKey = request.getParameter("parentKey");
-
-    System.out.println("parent key = " + parentKey);
 
     if (parentKey == null || parentKey.equals("")) {
       // Request is invalid, return empty array
@@ -72,8 +69,6 @@ public class MessageByKeyServlet extends HttpServlet {
     List<Message> messages = datastore.getMessagesForParentKey(parentKey);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
-
-    System.out.println(json);
 
     response.getWriter().println(json);
   }
