@@ -68,7 +68,6 @@ public class MessageServlet extends HttpServlet {
     String user = request.getParameter("user");
 
     if (user == null || user.equals("")) {
-      // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
@@ -99,13 +98,12 @@ public class MessageServlet extends HttpServlet {
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
     String imageUrl = getUploadedFileUrl(request, "image");
-    String imageToInsert = "<img src=\"" + imageUrl + "\">";
-    userText = userText + " " + imageToInsert;
+    if (imageUrl != "" && imageUrl != null) {
+      String imageToInsert = "<img src=\"" + imageUrl + "\">";
+      userText = userText + " " + imageToInsert;
+    }
 
-    /*
-     * Checking text against set regex. If there is a match, variable url is set to
-     * equal it
-     */
+    //Checking text against set regex. If there is a match, variable url is set to equal it
     String regex = "(https?://\\S+\\.(png|jpg|jpeg|gif|tiff|bmp)\\S*)";
 
     Pattern pattern = Pattern.compile(regex);
@@ -123,7 +121,7 @@ public class MessageServlet extends HttpServlet {
     double score = sentiment.getScore();
     languageService.close();
 
-    //Validating the URL
+    // Validating the URL
     UrlValidator defaultValidator = new UrlValidator();
     Message message;
 
