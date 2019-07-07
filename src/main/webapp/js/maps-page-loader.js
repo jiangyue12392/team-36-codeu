@@ -72,7 +72,7 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
   const cinemaMarker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map,
-/*    // set the icon as catIcon declared above
+    /*// set the icon as catIcon declared above
     icon: chairIcon,
     // must use optimized false for CSS
     optimized: false,
@@ -96,6 +96,8 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
   }
   cinemaMarker.addListener('click', () => {
     infoWindow.open(map, cinemaMarker);
+    //Use this to click marker to show popup
+    /*document.getElementById('abc').style.display = "block";*/
   });
 }
 
