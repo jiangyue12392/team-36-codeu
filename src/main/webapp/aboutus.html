@@ -26,8 +26,6 @@ limitations under the License.
   <link rel="stylesheet" type="text/css" href="/css/navbar.css">
   <script type="text/javascript" src='js/main.js'></script>
   <script type = "text/javascript" src="/js/swiper.min.js"></script>
-<!--  <script src="js/moreInfo-loader.js"></script>-->
-  <!--<script src="js/membersSwiper.js"></script>-->`
 </head>
 <body>
 
@@ -61,114 +59,89 @@ limitations under the License.
       </ul>
     </nav>
   </header>
-<!--<nav>
-  <ul id="navigation">
-    <li><a href="/">Home</a></li>
-    <li><a href="/aboutus.html">About Our Team</a></li>
-    <li><a href="/feed.html">Public Feed Page</a></li>
-    <li><a href="/community.html">Community Page</a></li>
-  </ul>
-</nav>-->
-<div class="swiper-container">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="images/Reine_1.jpg" alt="">
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="imgBx">
+          <img src="images/Reine_1.jpg" alt="">
+        </div><!--
+        <div class="details">
+          <h3>Ran Fang<br><span>CodeU Student</span></h3>
+        </div>-->
       </div>
-      <div class="details">
-        <h3>Ran Fang<br><span>CodeU Student</span></h3>
+      <div class="swiper-slide">
+        <div class="details">
+          <h3 class="myHeader">Ran Fang<br><span>CodeU Student</span></h3>
+          <h4 class="myInfo">
+            <li>Summer Feelz: Excited and pumped</li><br>
+            <li>Aspirational Hobby: To be able to write and express myself. </li><br>
+            <li>Ask me About: Art and Music</li>
+          </h4>
+        </div>
       </div>
-    </div>
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="" alt="Reine">
+
+      <div class="swiper-slide">
+        <div class="imgBx">
+          <img src="images/Ali_1.jpg" alt="">
+        </div>
+        <div class="details">
+          <h3>Jiang Yue<br><span>CodeU Student</span></h3>
+        </div>
       </div>
-      <div class="details">
-        <h3>Ran Fang<br><span>CodeU Student</span></h3>
+      <div class="swiper-slide">
+        <div class="details">
+          <h3 class="myHeader">Jiang Yue<br><span>CodeU Student</span></h3>
+          <h4 class="myInfo">
+            <li>Summer Feelz: excited, happy and at ease</li><br>
+            <li>Aspirational Hobby: playing guitar</li><br>
+            <li>Ask me About: weiqi(go)</li><br>
+          </h4>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="imgBx">
+          <img src="images/Meg_1.jpg" alt="">
+        </div>
+        <div class="details">
+          <h3>Meghana<br><span>CodeU Student</span></h3>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="details">
+          <h3 class="myHeader">Meghana Narayanan<br><span>CodeU Student</span></h3>
+          <h4 class="myInfo">
+            <li>Summer Feelz: Motivated, excited, productive</li><br>
+            <li>Aspirational Hobby: Trekking in the Himalayas</li><br>
+            <li>Ask me About: Vegetarianism</li>
+          </h4>
+        </div>
       </div>
     </div>
 
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="images/Ali_1.jpg" alt="">
-      </div>
-      <div class="details">
-        <h3>Jiang Yue<br><span>CodeU Student</span></h3>
-      </div>
-    </div>
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="" alt="Yue">
-      </div>
-      <div class="details">
-        <h3>Jiang Yue<br><span>CodeU Student</span></h3>
-      </div>
-    </div>
-
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="images/Meg_1.jpg" alt="">
-      </div>
-      <div class="details">
-        <h3>Meghana<br><span>CodeU Student</span></h3>
-      </div>
-    </div>
-    <div class="swiper-slide">
-      <div class="imgBx">
-        <img src="" alt="Meg">
-      </div>
-      <div class="details">
-        <h3>Meghana<br><span>CodeU Student</span></h3>
-      </div>
-    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
   </div>
 
-  <!-- Add Pagination -->
-  <div class="swiper-pagination"></div>
-</div>
 
-
-<script>
-  new Swiper('.swiper-container', {
-    effect: 'coverflow',
-    grabCursor: true,
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    coverflowEffect: {
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows : true,
-    },
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  });
-</script>
-<!--<h1>About Our Team</h1>
-<h2>Teammate A - Fang Ran (Reine)</h2>
-<ul>
-  <img src="./images/Reine.jpg" alt="Reine" width="200"
-       height="200">
-  <li>Summer Feelz: Excited but nervous</li>
-  <li>Aspirational Hobby: To be able to write and express myself. </li>
-  <li>Ask me About: Art and Music</li>
-</ul>
-<h2>Teammate B - Jiang Yue</h2>
-<ul>
-  <img src="./images/Ali.jpg" alt="Ali" width="200"
-       height="200">
-  <li>Summer Feelz: excited, happy and at ease</li>
-  <li>Aspirational Hobby: playing guitar</li>
-  <li>Ask me About: weiqi(go)</li>
-</ul>
-<h2>Teammate C Meghana Narayanan</h2>
-<ul>
-  <img src ="./images/Meghana.jpg" width="200" height="200">
-  <li>Summer Feelz: Motivated, excited, productive</li>
-  <li>Aspirational Hobby: Trekking in the Himalayas</li>
-  <li>Ask me About: Vegetarianism</li>
-</ul>-->
+  <script>
+    new Swiper('.swiper-container', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows : true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+    });
+  </script>
 </body>
 </html>
