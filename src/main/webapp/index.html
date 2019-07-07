@@ -14,28 +14,73 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<!--<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a>
+from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+<a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>CodeU 2019 Starter Project</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="/js/navigation-loader.js"></script>
-  </head>
-  <body onload="addLoginOrLogoutLinkToNavigation();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-        <li><a href="/feed.html">Public Feed Page</a></li>
-        <li><a href="/community.html">Community Page</a></li>
-      </ul>
-    </nav>
-    <h1>CodeU Starter Project</h1>
-    <p>This is the CodeU starter project. Click the links above to login and visit your page.
-    You can post messages on your page, and you can visit other user pages if you have
-    their URL.</p>
-    <p>This is your code now! Feel free to make changes, and don't be afraid to get creative!
-    You could start by modifying this page to tell the world more about your team.</p>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>CodeU 2019 Starter Project</title>
+  <link rel="stylesheet" type="text/css" href="/css/indexPage.css">
+  <link rel="stylesheet" type="text/css" href="/css/moreInfo.css">
+  <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+  <script type="text/javascript" src='js/main.js'></script>
+  <script src="/js/navigation-loader.js"></script>
+</head>
+<body onload="addLoginOrLogoutLinkToNavigation();">
+
+  <section>
+    <div class="layer1">
+      <h1>
+        <span>T</span>
+        <span>E</span>
+        <span>A</span>
+        <span>M</span>
+        <span></span>
+        <span>3</span>
+        <span>6</span>
+      </h1>
+      <a href="/maps.html"><img id="myTicket" src="/images/movieTicket.png" alt="Index"/></a>
+    </div>
+    <div class="layer2">
+      <header>
+        <img src="images/popcornIcon.png" alt="Image not available">
+        <nav>
+          <ul id="navigation">
+            <li><a href="/">Home</a></li>
+            <li><a href="/aboutus.html">About Our Team</a></li>
+            <li><a href="/feed.html">Public Feed Page</a></li>
+            <li><a href="/community.html">Community Page</a></li>
+            <li><a href="/maps.html">Maps Page</a></li>
+          </ul>
+        </nav>
+      </header>
+      <button id="myBtn">More Info</button>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Cinemas Review Site</h2>
+          </div>
+          <div class="modal-body">
+            <p>This is a site for movie buffs to post and read reviews about the cinemas in Singapore</p>
+            <p>Click on the ticket to begin</p>
+            <br>
+            <p>Ran Fang - Did frontend for our webapp. Unguided projects: Maps 1, Maps 2, Styling</p>
+            <p></p>
+            <p>Jiang Yue - </p>
+            <p></p>
+            <p>Meghana Narayanan - </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<script src="js/moreInfo-loader.js"></script>
+
+</body>
 </html>
