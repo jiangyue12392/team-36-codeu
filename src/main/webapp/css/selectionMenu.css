@@ -5,67 +5,66 @@
   padding: 0;
   display: flex;
   align-items: center;
-  min-height: 100vh;
+  min-height: 50vh;
   background: #060c21;
   font-family: 'Poppins', sans-serif;
+}
+
+#cinemaName {
+  font-size:30px;
+  color:antiquewhite;
+  font-style: italic;
+}
+
+#submitReviewTextArea{
+  background-color:antiquewhite;
+  width:60%;
+  height:55%;
+}
+
+#submitReviewsButton{
+  background-color:brown;
+  border:0
+}
+
+#closeBtn {
+  position: fixed;
+  top: 2em;
+  right: 3em;
+  padding: 0;
+  border: #060c21;
+}
+
+#closeBtnImg {
+  width: 50px;
+  height: 50px;
+  background: #060c21;
 }
 
 .container {
   position: relative;
   width: 90%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  grid-template-rows: auto;
-  grid-gap: 0 40px;
 }
 
 .container .box {
-  position: relative;
   height: 400px;
-  background: #060c21;
   display:flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #000;
-}
-
-.container .box:before {
-  content: '';
   position: absolute;
   top: -2px;
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: #fff;
+  background-color:brown
 }
 
-.container .box:nth-child(1):before {
-  background: linear-gradient(315deg, #0000ff, #e64a19);
-}
-
-.container .box:nth-child(2):before {
-  background: linear-gradient(315deg, #89ff00, #00bcd4);
-}
-
-.container .box:nth-child(3):before {
-  background: linear-gradient(315deg, #ffc107, #5d02ff);
-}
-
-.container .box:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.05);
-
-}
 
 .content {
   position: relative;
   padding: 20px;
-  transform: translateY(40px);
+  transform: translate(20px, 40px);
 }
 
 .box .content h2 {
