@@ -45,3 +45,7 @@
 .hidden {
   display: none;
 }
+
+#content{
+  padding-top:80px;
+}

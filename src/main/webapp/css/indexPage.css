@@ -123,10 +123,12 @@ section .layer1 {
   height: 100px;
   width: 100px;
   top:78%;
-  padding-left:41%;
+  margin-left: 0px;
+  padding-left: 0px;
+  left: 250px;
   position:fixed;
   display: inline-block;
-  animation: animateTix 5s linear forwards;
+  animation: animateTix 3s linear infinite;
 }
 
 @keyframes animateTix {
