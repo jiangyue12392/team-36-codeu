@@ -17,10 +17,10 @@
     <h1>
       Cinema Locations in Singapore
 
-      <button id="popup" onclick="div_show()">Popup</button>
+      <!--<button id="popup" onclick="div_show()">Popup</button>-->
     </h1>
     <div id="map"></div>
-    <div id="abc">
+    <div id="mapsPgPopUp">
       <!-- Popup Div Starts Here -->
       <!--<div id="popupContact">
         &lt;!&ndash; Contact Us Form &ndash;&gt;
@@ -35,45 +35,28 @@
       </div>-->
 
       <div id="firstMenuBody">
+        <button id="closeBtn">
+          <a href="/maps.html">
+          <img id="closeBtnImg" src="/images/closeButton_1.png" alt="Index"/>
+          </a>
+        </button>
         <div class="container">
           <div class="box">
+            <textarea id="submitReviewTextArea"> Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else. Your review will be analyzed and given a sentiment score. Your score will be totaled and counted towards the aggregate score of each cinema.
+            </textarea>
             <div class="content">
               <h2>01</h2>
-              <h3>Option One</h3>
+              <div id="cinemaName"><h3></h3></div>
               <p>
                 Submit your Review!
               </p>
-              <a href="#">Submit Review(s)</a>
-            </div>
-          </div>
-
-          <div class="box">
-            <div class="content">
-              <h2>02</h2>
-              <h3>Option Two</h3>
-              <p>
-                Read other Reviews!
-              </p>
-              <a href="#">Read Reviews</a>
-            </div>
-          </div>
-
-          <div class="box">
-            <div class="content">
-              <h2>03</h2>
-              <h3>Option Three</h3>
-              <p>
-                Go Back to Map!
-              </p>
-              <a href="/maps.html" onclick="div_hide()">Return to Map</a>
+              <button id="submitReviewsButton"><a href="#">Submit Review(s)</a></button>
             </div>
           </div>
 
 
         </div>
       </div>
-
-
 
       <!-- Popup Div Ends Here -->
     </div>
