@@ -9,31 +9,27 @@
   <script src="/js/mapsPopUp.js" type="text/javascript"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/selectionMenu.css">
-  <!--<link rel="stylesheet" href="/css/submitReviewForm.css">-->
+  <link rel="stylesheet" type="text/css" href="/css/navbar.css">
 </head>
 
   <body onload="buildUI()" id="body" style="overflow:hidden;">
+  <header>
+    <img src="images/popcornIcon.png" alt="Image not available">
+    <nav>
+      <ul id="navigation">
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus.html">About Our Team</a></li>
+        <li><a href="/feed.html">Public Feed Page</a></li>
+        <li><a href="/maps.html">Maps Page</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <h1>
+    <div id="myMapsHeader"><h1>
       Cinema Locations in Singapore
-
-      <!--<button id="popup" onclick="div_show()">Popup</button>-->
-    </h1>
+    </h1></div>
     <div id="map"></div>
     <div id="mapsPgPopUp">
-      <!-- Popup Div Starts Here -->
-      <!--<div id="popupContact">
-        &lt;!&ndash; Contact Us Form &ndash;&gt;
-        <form action="#" id="form" method="post" name="form">
-          <img id="close" src="images/seat.png" onclick ="div_hide()">
-          <h2>Contact Us</h2>
-          <hr>
-          <input id="name" name="name" placeholder="Name" type="text">
-          <input id="email" name="email" placeholder="Email" type="text">
-          <textarea id="msg" name="message" placeholder="Message"></textarea>
-        </form>
-      </div>-->
-
       <div id="firstMenuBody">
         <button id="closeBtn">
           <a href="/maps.html">
@@ -50,7 +46,7 @@
               <p>
                 Submit your Review!
               </p>
-              <button id="submitReviewsButton"><a href="#">Submit Review(s)</a></button>
+              <button id="submitReviewsButton"><a href="/feed.html">Submit Review</a></button>
             </div>
           </div>
 
