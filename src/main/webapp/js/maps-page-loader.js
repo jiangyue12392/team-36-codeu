@@ -87,7 +87,7 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
  * This function fetches messages for the given parent key.
  */
 async function getMessagesForKey(key, containerDiv) {
-  await fetch('/messagebykey?parentKey=' + key)
+  await fetch('/messagebykey?parentKey=' + key + "&parentKind=Marker")
   .then(response => response.json())
   .then(messagesForKey => {
     messagesForKey.forEach((message) => {
@@ -101,6 +101,7 @@ async function getMessagesForKey(key, containerDiv) {
 function postMessage(parentKey, text) {
   const params = new URLSearchParams();
   params.append('parentKey', parentKey);
+  params.append('parentKind', "Marker");
   params.append('text', text);
   fetch('/marker-messages', {
     method: 'POST',

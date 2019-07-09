@@ -16,6 +16,7 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.cloud.language.v1.Document;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
@@ -49,6 +50,7 @@ public class MessageByKeyServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String parentKey = request.getParameter("parentKey");
+    String parentKind = request.getParameter("parentKind");
 
     if (parentKey == null || parentKey.equals("")) {
       // Request is invalid, return empty array
@@ -56,7 +58,7 @@ public class MessageByKeyServlet extends HttpServlet {
       return;
     }
 
-    List<Message> messages = datastore.getMessagesForParentKey(parentKey);
+    List<Message> messages = datastore.getMessagesForParentKey(KeyFactory.createKey(parentKind, parentKey));
     Gson gson = new Gson();
     String json = gson.toJson(messages);
 
