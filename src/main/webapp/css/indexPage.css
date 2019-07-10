@@ -120,15 +120,15 @@ section .layer1 {
 }
 
 #myTicket {
-  height: 100px;
-  width: 100px;
-  top:78%;
+  height: 200px;
+  width: 200px;
+  top: 60%;
   margin-left: 0px;
   padding-left: 0px;
-  left: 250px;
+  left: 200px;
   position:fixed;
   display: inline-block;
-  animation: animateTix 3s linear infinite;
+  animation: animateTix 2s linear infinite;
 }
 
 @keyframes animateTix {
