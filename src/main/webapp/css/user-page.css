@@ -49,3 +49,14 @@
 #content{
   padding-top:80px;
 }
+
+#refreshInstruc{
+  color:red;
+}
+
+#redirectMsg{
+  position: center;
+  padding-top: 80px;
+  padding-left: 20%;
+  font-size: 80px;
+}
