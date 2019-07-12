@@ -68,7 +68,7 @@ async function createCinemaMarkers(map) {
 /** Creates a marker that shows an info window with existing reviews and editable comment session
  *for user when clicked.
  */
-async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
+async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false) {
   const cinemaMarker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map,
@@ -78,9 +78,9 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
     optimized: false
   });
 
-  const infoText = document.createTextNode(cinemaName);
+  /*const infoText = document.createTextNode(cinemaName);
 
-  /*const containerDiv = document.createElement('div');
+  const containerDiv = document.createElement('div');
   containerDiv.appendChild(infoText);
   containerDiv.appendChild(document.createElement('br'));
   containerDiv.appendChild(document.createElement('br'));*/
@@ -88,19 +88,12 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
   await getMessagesForKey(key);
 
   buildPopupWindowInput(map, lat, lng, cinemaName, key, cinemaMarker);
-  const infoWindow = new google.maps.InfoWindow({
-    content: infoText
-  });
+  /*const infoWindow = new google.maps.InfoWindow({
+    content: buildPopupWindowInput(map, lat, lng, cinemaName, key, cinemaMarker, containerDiv)
+  });*/
   /*if (updateMode) {
     infoWindow.open(map, cinemaMarker);
   }*/
-  cinemaMarker.addListener('mouseover', function() {
-    infoWindow.open(map, cinemaMarker);
-  });
-  cinemaMarker.addListener('mouseout', function() {
-    infoWindow.close();
-  });
-
   cinemaMarker.addListener('click', () => {
     /*infoWindow.open(map, cinemaMarker);*/
     //Use this to click marker to show popup
@@ -116,23 +109,12 @@ async function getMessagesForKey(key) {
   await fetch('/messagebykey?parentKey=' + key)
     .then(response => response.json())
     .then(messagesForKey => {
-      let msgSentimentScore;
-      let msgSentimentCount=messagesForKey.length;
-      let msgSentimentTotalScore = 0;
-      console.log("length", messagesForKey.length);
       messagesForKey.forEach((message) => {
         /*containerDiv.appendChild(document.createTextNode(message.text));
         containerDiv.appendChild(document.createElement('br'));*/
         /*const msgSentimentScore = */
-        /*console.log("message");
+        console.log("message");
         console.log(message);
-        console.log(message.sentimentScore);
-        msgSentimentScore = message.sentimentScore;
-        msgSentimentTotalScore += msgSentimentScore;
-        msgSentimentTotalScore = msgSentimentTotalScore/msgSentimentCount;
-        document.getElementById("cinemaSentimentScore").innerHTML=msgSentimentTotalScore;
-        console.log(msgSentimentScore);
-        console.log(msgSentimentTotalScore);*/
       });
     });
 }
