@@ -31,17 +31,16 @@
     <div id="map"></div>
     <div id="mapsPgPopUp">
       <div id="firstMenuBody">
-        <button id="closeBtn">
-          <a href="/maps.html">
+        <button id="closeBtn" onclick="div_hide()">
           <img id="closeBtnImg" src="/images/closeButton_1.png" alt="Index"/>
-          </a>
         </button>
         <div class="container">
           <div class="box">
             <textarea id="submitReviewTextArea"> Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else. Your review will be analyzed and given a sentiment score. Your score will be totaled and counted towards the aggregate score of each cinema.
             </textarea>
             <div class="content">
-              <h2>01</h2>
+              <!--<h2>01</h2>-->
+              <div id="cinemaSentimentScore"><h2>36</h2></div>
               <div id="cinemaName"><h3></h3></div>
               <p>
                 Submit your Review!
