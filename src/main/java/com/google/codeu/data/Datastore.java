@@ -46,12 +46,12 @@ public class Datastore {
     storeMessage(message, null);
   }
 
-  public void storeMessage(Message message, Key parentKey) {
+  public void storeMessage(Message message, String parentKey) {
     Entity messageEntity;
-    if (parentKey == null)
+    if (parentKey == null || parentKey.equals(""))
       messageEntity = new Entity("Message", message.getId().toString());
     else
-      messageEntity = new Entity("Message", message.getId().toString(), parentKey);
+      messageEntity = new Entity("Message", message.getId().toString(), KeyFactory.stringToKey(parentKey));
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
@@ -131,7 +131,6 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         double sentimentScore = (double) entity.getProperty("sentimentScore");
-        String parentKey = (String) entity.getProperty("parentKey");
 
         Message message = new Message(id, user, text, timestamp, sentimentScore);
         messages.add(message);
@@ -171,11 +170,11 @@ public class Datastore {
   }
 
   /* Returns all the message entities based on the parentKey */
-  public List<Message> getMessagesForParentKey(Key parentKey) {
+  public List<Message> getMessagesForParentKey(String parentKey) {
     List<Message> messages;
     Query query =
         new Query("Message")
-            .setAncestor(parentKey)
+            .setAncestor(KeyFactory.stringToKey(parentKey))
             .addSort("timestamp", SortDirection.DESCENDING);
     messages = getMessagesHelperFunction(query);
 

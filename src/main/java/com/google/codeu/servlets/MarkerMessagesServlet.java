@@ -60,7 +60,6 @@ public class MarkerMessagesServlet extends HttpServlet {
 
     // Get parentKey string if no key field key will be null
     String parentKey = request.getParameter("parentKey");
-    String parentKind = request.getParameter("parentKind");
 
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
@@ -75,9 +74,8 @@ public class MarkerMessagesServlet extends HttpServlet {
     languageService.close();
 
     Message message = new Message(user, userText, score);
-    System.out.println(parentKey + parentKind);
-    if (parentKey != null && parentKind != null)
-      datastore.storeMessage(message, KeyFactory.createKey(parentKind, parentKey));
+    if (parentKey != null && !parentKey.equals(""))
+      datastore.storeMessage(message, parentKey);
 
   }
 

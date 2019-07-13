@@ -50,7 +50,6 @@ public class MessageByKeyServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String parentKey = request.getParameter("parentKey");
-    String parentKind = request.getParameter("parentKind");
 
     if (parentKey == null || parentKey.equals("")) {
       // Request is invalid, return empty array
@@ -58,7 +57,7 @@ public class MessageByKeyServlet extends HttpServlet {
       return;
     }
 
-    List<Message> messages = datastore.getMessagesForParentKey(KeyFactory.createKey(parentKind, parentKey));
+    List<Message> messages = datastore.getMessagesForParentKey(parentKey);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
 
