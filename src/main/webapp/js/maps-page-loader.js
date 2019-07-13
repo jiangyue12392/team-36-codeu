@@ -62,11 +62,8 @@ async function createCinemaMarkers(map) {
   });
 }
 
-/** Creates a marker that shows an info window with existing reviews and editable comment session
- *for user when clicked.
- */
-/** Creates a marker that shows an info window with existing reviews and editable comment session
- *for user when clicked.
+/**
+ * Creates a marker that shows an info window with the cinema name and handles user interaction events
  */
 async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false) {
   const cinemaMarker = new google.maps.Marker({
@@ -78,46 +75,34 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
     optimized: false
   });
 
-  /*const infoText = document.createTextNode(cinemaName);
+  const infoText = document.createTextNode(cinemaName);
 
-  const containerDiv = document.createElement('div');
-  containerDiv.appendChild(infoText);
-  containerDiv.appendChild(document.createElement('br'));
-  containerDiv.appendChild(document.createElement('br'));*/
-
-  await getMessagesForKey(key);
+  /*TODO: change this to get dict of cinema aggregated scores instead by key. So we just do one fetch()*/
+  /*await getMessagesForKey(key);*/
 
   buildPopupWindowInput(map, lat, lng, cinemaName, key, cinemaMarker);
-  /*const infoWindow = new google.maps.InfoWindow({
-    content: buildPopupWindowInput(map, lat, lng, cinemaName, key, cinemaMarker, containerDiv)
-  });*/
-  /*if (updateMode) {
-    infoWindow.open(map, cinemaMarker);
-  }*/
+  const infoWindow = new google.maps.InfoWindow({
+    content: infoText
+  });
+
   cinemaMarker.addListener('click', () => {
-    /*infoWindow.open(map, cinemaMarker);*/
-    //Use this to click marker to show popup
     document.getElementById("cinemaName").innerHTML=cinemaName;
     document.getElementById('mapsPgPopUp').style.display = "block";
   });
+
+  cinemaMarker.addListener('mouseover', () => {
+    infoWindow.open(map, cinemaMarker);
+  });
+
+  cinemaMarker.addListener('mouseout', () => {
+    infoWindow.close();
+  });
 }
 
-/**
- * This function fetches messages for the given parent key.
- */
-async function getMessagesForKey(key) {
-  await fetch('/messagebykey?parentKey=' + key)
-    .then(response => response.json())
-    .then(messagesForKey => {
-      messagesForKey.forEach((message) => {
-        /*containerDiv.appendChild(document.createTextNode(message.text));
-        containerDiv.appendChild(document.createElement('br'));*/
-        /*const msgSentimentScore = */
-        console.log("message");
-        console.log(message);
-      });
-    });
-}
+
+/*TODO: Get dict of cinema aggregated scores instead by key. So we just do one fetch()*/
+/*If we want smiley: less than 0 -> sad face. If more than 0 -> happy face. If 0 -> neutral face. Just pass out a dict of 0,1,-1 values to frontend*/
+
 
 /** Sends a message to the backend for saving. */
 function postMessage(parentKey, text) {
@@ -131,34 +116,20 @@ function postMessage(parentKey, text) {
 }
 
 async function handleSubmitButtonClick(map, lat, lng, cinemaName, key, marker, text) {
-  const delay = ms => new Promise(res => setTimeout(res, ms));
-  console.log(key);
-  console.log(text);
   await postMessage(key, text);
-
-  /*marker.setMap(null);
-  //set delay to ensure message is persisted in data store and can be retrieved to be shown in the info window
-  await delay(4500);
-  createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);*/
 }
 
-/** Builds and returns HTML elements that show an editable textbox and a submit button. */
+/** Builds and returns HTML pop up that show an editable textbox and a submit button. Then handles submit */
 function buildPopupWindowInput(map, lat, lng, cinemaName, key, marker) {
-  /*const textBox = document.createElement('textarea');*/
   const textBox = document.getElementById('submitReviewTextArea');
-  /*const button = document.createElement('button');
-  button.appendChild(document.createTextNode('Submit'));*/
   const button = document.getElementById('submitReviewsButton');
   button.onclick = () => {
-    console.log(lat,lng,cinemaName,key,marker);
     handleSubmitButtonClick(map, lat, lng, cinemaName, key, marker, textBox.value);
   };
-  /*containerDiv.appendChild(document.createElement('br'));
-  containerDiv.appendChild(textBox);
-  containerDiv.appendChild(document.createElement('br'));
-  containerDiv.appendChild(document.createElement('br'));
-  containerDiv.appendChild(button);*/
-  //return containerDiv;
+}
+
+function div_hide() {
+  document.getElementById('mapsPgPopUp').style.display = "none";
 }
 
 function buildUI() {
