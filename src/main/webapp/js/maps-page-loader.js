@@ -19,8 +19,8 @@ let chairIcon = {
 function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
   fetch(url)
-      .then(response => response.json())
-      .then(data => addDiffStylesToMap(data.Night));
+    .then(response => response.json())
+    .then(data => addDiffStylesToMap(data.Night));
 }
 
 function addDiffStylesToMap(mapStyle){
