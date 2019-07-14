@@ -1,5 +1,7 @@
 package com.google.codeu.data;
 
+import com.google.appengine.api.datastore.KeyFactory;
+
 /** A single marker produced by a user. */
 public class Marker {
 
@@ -14,7 +16,8 @@ public class Marker {
    * is placed.
    */
   public Marker(double lat, double lng, String content) {
-    this(lat, lng, content, Double.toString(lat) + '-' + Double.toString(lng));
+    this(lat, lng, content, KeyFactory.keyToString(
+        KeyFactory.createKey("Marker", Double.toString(lat) + '-' + Double.toString(lng))));
   }
 
   public Marker(double lat, double lng, String content, String key) {

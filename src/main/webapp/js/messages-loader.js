@@ -61,8 +61,6 @@ function initializeUrlParams(url) {
   const search_params = new URLSearchParams(new URL(window.location.href).search);
   language = search_params.get('language') || "original";
   cinemaKey = search_params.get('cinemaKey') || "all";
-  console.log(language);
-  console.log(cinemaKey);
 }
 
 // Fetch data and populate the UI of the page.
