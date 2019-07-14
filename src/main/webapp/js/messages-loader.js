@@ -1,7 +1,9 @@
+let language;
+let cinemaKey;
 
 // Fetch messages and add them to the page.
 function fetchMessages(){
-  const url = '/feed';
+  const url = '/feed?language=' + language + '&cinemaKey=' + cinemaKey;
   fetch(url).then((response) => response.json()
   ).then((messages) => {
     const messageContainer = document.getElementById('message-container');
@@ -48,38 +50,23 @@ function buildMessageDiv(message){
 
 // Posts the selected language to be translated to and fetch translated messages from server.
 function submitTransReq() {
-  const url = '/feed';
-  const language = document.getElementById('language').value;
+  language = document.getElementById('language').value;
   const messageContainer = document.getElementById('message-container');
   messageContainer.innerText = 'Loading...';
 
-  const params = new URLSearchParams();
-  params.append('language', language);
+  fetchMessages();
+}
 
-  var transReq = new XMLHttpRequest();
-  transReq.responseType = 'json';
-  transReq.open('POST', url);
-  transReq.send(params);
-
-  transReq.onload = function () {
-    if (transReq.status == 200) {
-      let messages = transReq.response;
-      if (messages.length == 0) {
-        messageContainer.innerHTML = '<p>There are no posts yet.</p>';
-      } else {
-        messageContainer.innerHTML = '';
-      }
-      messages.forEach((message) => {
-        messageContainer.appendChild(buildMessageDiv(message));
-      });
-    } else {
-      messageContainer.innerText = 'Translation failed. Please refresh the page.';
-      console.log(transReq.status);
-    }
-  }
+function initializeUrlParams(url) {
+  const search_params = new URLSearchParams(new URL(window.location.href).search);
+  language = search_params.get('language') || "original";
+  cinemaKey = search_params.get('cinemaKey') || "all";
+  console.log(language);
+  console.log(cinemaKey);
 }
 
 // Fetch data and populate the UI of the page.
-function buildUI(){
+function buildUI() {
+  initializeUrlParams();
   fetchMessages();
 }

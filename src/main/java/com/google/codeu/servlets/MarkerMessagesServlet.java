@@ -89,7 +89,5 @@ public class MarkerMessagesServlet extends HttpServlet {
 
     Message message = new Message(user, userText, score, parentKey);
     datastore.storeMessage(message);
-
   }
-
 }
