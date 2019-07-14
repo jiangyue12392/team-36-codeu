@@ -61,7 +61,7 @@ public class MessageFeedServlet extends HttpServlet{
       try {
         for (Message msg : messages) {
           translatedMessage.add(new Message(msg.getId(), msg.getUser(),
-                                Translator.translate(msg.getText(), language), msg.getTimestamp(), msg.getSentimentScore(), msg.getParentKey()));
+                                Translator.translate(msg.getText(), language), msg.getTimestamp(), msg.getSentimentScore()));
         }
       } catch (Exception e) {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Translation Failure.");

@@ -26,28 +26,21 @@ public class Message {
   private String text;
   private long timestamp;
   private double sentimentScore;
-  private String parentKey;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
   public Message(String user, String text, double sentimentScore) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), sentimentScore, null);
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), sentimentScore);
   }
 
-  public Message(String user, String text, double sentimentScore, String parentKey) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), sentimentScore, parentKey);
-  }
-
-
-  public Message(UUID id, String user, String text, long timestamp, double sentimentScore, String parentKey) {
+  public Message(UUID id, String user, String text, long timestamp, double sentimentScore) {
     this.id = id;
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
     this.sentimentScore = sentimentScore;
-    this.parentKey = parentKey;
   }
 
   public UUID getId() {
@@ -68,10 +61,6 @@ public class Message {
 
   public double getSentimentScore() {
     return sentimentScore;
-  }
-
-  public String getParentKey() {
-    return parentKey;
   }
 
 }

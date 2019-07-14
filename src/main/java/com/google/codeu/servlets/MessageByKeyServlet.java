@@ -16,6 +16,7 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.cloud.language.v1.Document;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
