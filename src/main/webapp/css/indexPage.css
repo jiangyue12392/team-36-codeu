@@ -15,9 +15,7 @@
  */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Philosopher|Roboto&display=swap');
 
-/* Prevent the page from becoming too wide. */
 body {
-  /*max-width: 600px;*/
   margin: 0;
   padding: 0;
 }
@@ -120,13 +118,15 @@ section .layer1 {
 }
 
 #myTicket {
-  height: 100px;
-  width: 100px;
-  top:78%;
-  padding-left:41%;
+  height: 200px;
+  width: 200px;
+  top: 60%;
+  margin-left: 0px;
+  padding-left: 0px;
+  left: 200px;
   position:fixed;
   display: inline-block;
-  animation: animateTix 5s linear forwards;
+  animation: animateTix 2s linear infinite;
 }
 
 @keyframes animateTix {

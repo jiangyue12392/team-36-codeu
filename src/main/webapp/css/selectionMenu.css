@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+
+#firstMenuBody {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  min-height: 50vh;
+  background: #060c21;
+  font-family: 'Poppins', sans-serif;
+}
+
+#cinemaName {
+  font-size:30px;
+  color:antiquewhite;
+  font-style: italic;
+}
+
+#submitReviewTextArea{
+  background-color:antiquewhite;
+  width:60%;
+  height:55%;
+}
+
+#submitReviewsButton{
+  background-color:brown;
+  border:0
+}
+
+#closeBtn {
+  position: fixed;
+  top: 2em;
+  right: 3em;
+  padding: 0;
+  border: #060c21;
+}
+
+#closeBtnImg {
+  width: 50px;
+  height: 50px;
+  background: #060c21;
+}
+
+.container {
+  position: relative;
+  width: 90%;
+}
+
+.container .box {
+  height: 400px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background-color:brown
+}
+
+
+.content {
+  position: relative;
+  padding: 20px;
+  transform: translate(20px, 40px);
+}
+
+.box .content h2 {
+  position: absolute;
+  top: -60px;
+  right: 10px;
+  margin: 0;
+  padding: 0;
+  font-size: 10em;
+  color: rgba(255,255,255,.1);
+  transition: 0.5s;
+}
+
+.box:hover .content h2 {
+  top: -140px;
+}
+
+.box .content h3 {
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.box .content p {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.box .content a {
+  position: relative;
+  margin: 20px 0 0;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: 1px solid #fff;
+  border-radius: 30px;
+  display: inline-block;
+  color: #fff;
+  transition: 0.5s;
+  transform: translateY(-40px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.box:hover .content a {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.box .content a:hover {
+  color: black;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 400%;
+  border-radius:30px;
+  animation: animate 8s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 400%;
+  }
+}
