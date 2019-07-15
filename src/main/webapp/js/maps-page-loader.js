@@ -14,7 +14,6 @@ let chairIcon = {
  * Map styles are different modes that will be displayed to the user
  * Added night mode (static configs for that style in extraMapStyles.json)
  * New modes/map styles can be added in extraMapStyles.json file.
- *
  */
 function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
@@ -53,19 +52,20 @@ function createStyledMap(styledMapType){
 /**
  * This function fetches cinema markers from the backend and places them on the map.
  */
-async function createCinemaMarkers(map) {
-  const fetchResult = fetch('/cinema-data');
-  const response = await fetchResult;
-  const jsonData = await response.json();
-  jsonData.forEach((cinemaMarker) => {
-    createCinemaMarkerForDisplay(map, cinemaMarker.lat, cinemaMarker.lng, cinemaMarker.content, cinemaMarker.key)
-  });
+function createCinemaMarkers(map) {
+  fetch('/cinema-data')
+    .then(response => response.json())
+    .then(jsonData => {
+      jsonData.forEach((cinemaMarker) => {
+        createCinemaMarkerForDisplay(map, cinemaMarker.lat, cinemaMarker.lng, cinemaMarker.content, cinemaMarker.key)
+      });
+    });
 }
 
 /**
  * Creates a marker that shows an info window with the cinema name and handles user interaction events
  */
-async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=false) {
+function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
   const cinemaMarker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map,
@@ -80,14 +80,12 @@ async function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, upda
   /*TODO: change this to get dict of cinema aggregated scores instead by key. So we just do one fetch()*/
   /*await getMessagesForKey(key);*/
 
-  buildPopupWindowInput(map, lat, lng, cinemaName, key, cinemaMarker);
   const infoWindow = new google.maps.InfoWindow({
     content: infoText
   });
 
   cinemaMarker.addListener('click', () => {
-    document.getElementById("cinemaName").innerHTML=cinemaName;
-    document.getElementById('mapsPgPopUp').style.display = "block";
+    buildPopupWindowInput(cinemaName, key);
   });
 
   cinemaMarker.addListener('mouseover', () => {
@@ -115,16 +113,19 @@ function postMessage(parentKey, text) {
   });
 }
 
-async function handleSubmitButtonClick(map, lat, lng, cinemaName, key, marker, text) {
+async function handleSubmitButtonClick(key, text) {
   await postMessage(key, text);
+  window.location.href = "/feed.html?cinemaKey=" + key;
 }
 
-/** Builds and returns HTML pop up that show an editable textbox and a submit button. Then handles submit */
-function buildPopupWindowInput(map, lat, lng, cinemaName, key, marker) {
+/** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
+function buildPopupWindowInput(cinemaName, key) {
+  document.getElementById("cinemaName").innerHTML=cinemaName;
+  document.getElementById('mapsPgPopUp').style.display = "block";
   const textBox = document.getElementById('submitReviewTextArea');
   const button = document.getElementById('submitReviewsButton');
   button.onclick = () => {
-    handleSubmitButtonClick(map, lat, lng, cinemaName, key, marker, textBox.value);
+    handleSubmitButtonClick(key, textBox.value);
   };
 }
 
