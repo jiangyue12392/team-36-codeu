@@ -79,7 +79,15 @@ function submitTransReq() {
   }
 }
 
+function loadOnce(){
+  if(!window.location.hash) {
+    window.location = window.location + '#loaded';
+    window.location.reload();
+  }
+}
+
 // Fetch data and populate the UI of the page.
 function buildUI(){
   fetchMessages();
+  setTimeout(loadOnce, 4500);
 }
