@@ -110,11 +110,15 @@ function postMessage(parentKey, text) {
 
 async function handleSumbitButtonClick(map, lat, lng, cinemaName, key, marker, text) {
   const delay = ms => new Promise(res => setTimeout(res, ms));
-  await postMessage(key, text);
+  var Message message;
+
+  await message = postMessage(key, text);
   marker.setMap(null);
   //set delay to ensure message is persisted in data store and can be retrieved to be shown in the info window
-  await delay(4500);
-  createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
+  // await delay(4500);
+  if(successPost) {
+    createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key, updateMode=true);
+  }
 }
 
 /** Builds and returns HTML elements that show an editable textbox and a submit button. */
