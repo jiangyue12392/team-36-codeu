@@ -4,18 +4,22 @@
     <title>Message Feed</title>
     <link rel="stylesheet" href="/css/indexPage.css">
     <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 
     <script src="/js/messages-loader.js"></script>
   </head>
   <body onload="buildUI()">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-        <li><a href="/feed.html">Public Feed Page</a></li>
-        <li><a href="/community.html">Community Page</a></li>
-      </ul>
-    </nav>
+    <header>
+      <img src="images/popcornIcon.png" alt="Image not available">
+      <nav>
+        <ul id="navigation">
+          <li><a href="/">Home</a></li>
+          <li><a href="/aboutus.html">About Our Team</a></li>
+          <li><a href="/feed.html">Public Feed Page</a></li>
+          <li><a href="/maps.html">Maps Page</a></li>
+        </ul>
+      </nav>
+    </header>
     <div id="content">
       <h1>Message Feed</h1>
       <div>
@@ -26,6 +30,13 @@
           <option value="hi">Hindi</option>
         </select>
         <button onclick="submitTransReq();">Translate</button>
+        <select id="cinema">
+          <option value="all">All</option>
+        </select>
+        <button onclick="submitCinemaReq();">Select</button>
+        <div id="refreshInstruc">
+          <h2>Refresh page after 4.5s to see your review.</h2>
+        </div>
       </div>
       <hr/>
       <div id="message-container">Loading...</div>

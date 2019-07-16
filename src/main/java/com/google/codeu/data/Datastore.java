@@ -43,12 +43,19 @@ public class Datastore {
 
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
-    Entity messageEntity = new Entity("Message", message.getId().toString());
+    storeMessage(message, null);
+  }
+
+  public void storeMessage(Message message, String parentKey) {
+    Entity messageEntity;
+    if (parentKey == null || parentKey.equals(""))
+      messageEntity = new Entity("Message", message.getId().toString());
+    else
+      messageEntity = new Entity("Message", message.getId().toString(), KeyFactory.stringToKey(parentKey));
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
-    messageEntity.setProperty("parentKey", message.getParentKey());
 
     datastore.put(messageEntity);
   }
@@ -124,9 +131,8 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         double sentimentScore = (double) entity.getProperty("sentimentScore");
-        String parentKey = (String) entity.getProperty("parentKey");
 
-        Message message = new Message(id, user, text, timestamp, sentimentScore, parentKey);
+        Message message = new Message(id, user, text, timestamp, sentimentScore);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -164,12 +170,11 @@ public class Datastore {
   }
 
   /* Returns all the message entities based on the parentKey */
-  public List<Message> getMessagesForParentKey(String key) {
+  public List<Message> getMessagesForParentKey(String parentKey) {
     List<Message> messages;
-
     Query query =
         new Query("Message")
-            .setFilter(new Query.FilterPredicate("parentKey", FilterOperator.EQUAL, key))
+            .setAncestor(KeyFactory.stringToKey(parentKey))
             .addSort("timestamp", SortDirection.DESCENDING);
     messages = getMessagesHelperFunction(query);
 

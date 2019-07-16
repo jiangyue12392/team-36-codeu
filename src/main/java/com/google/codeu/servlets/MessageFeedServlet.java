@@ -34,34 +34,27 @@ public class MessageFeedServlet extends HttpServlet{
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    response.setContentType("application/json");
-
-    List<Message> messages = datastore.getAllMessages();
-    String json = gson.toJson(messages);
-
-    response.setContentType("application/json; charset=UTF-8");
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().println(json);
-  }
-
-  /**
-   * Process translation request and response with a JSON representation of translated Messages
-   */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // get parameters
     String language = request.getParameter("language");
+    String cinemaKey = request.getParameter("cinemaKey");
 
-    List<Message> messages = datastore.getAllMessages();
+    // get messages from datastore
+    List<Message> messages;
+    if (cinemaKey == null || cinemaKey.equals("all")) {
+      messages = datastore.getAllMessages();
+    } else {
+      messages = datastore.getMessagesForParentKey(cinemaKey);
+    }
+
+    // translate messages if needed
     List<Message> translatedMessage = new ArrayList<Message>();
-
-    if (language.equals("original")) {
+    if (language == null || language.equals("original")) {
       translatedMessage = messages;
     } else {
       try {
         for (Message msg : messages) {
           translatedMessage.add(new Message(msg.getId(), msg.getUser(),
-                                Translator.translate(msg.getText(), language), msg.getTimestamp(), msg.getSentimentScore(), msg.getParentKey()));
+                                Translator.translate(msg.getText(), language), msg.getTimestamp(), msg.getSentimentScore()));
         }
       } catch (Exception e) {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Translation Failure.");
