@@ -1,53 +1,61 @@
 <!DOCTYPE html>
+
 <head>
-  <title>Styled Map Types</title>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="/css/maps-page.css">
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
-  <script src="/js/maps-page-loader.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/selectionMenu.css">
-  <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <title>Styled Map Types</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/maps-page.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
+    <script src="/js/maps-page-loader.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/selectionMenu.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
 </head>
 
 <body onload="buildUI()" id="body" style="overflow:hidden;">
-  <header>
-    <img src="images/popcornIcon.png" alt="Image not available">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-        <li><a href="/feed.html">Public Feed Page</a></li>
-        <li><a href="/maps.html">Maps Page</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <img src="images/popcornIcon.png" alt="Image not available">
+        <nav>
+            <ul id="navigation">
+                <li><a href="/">Home</a></li>
+                <li><a href="/aboutus.html">About Our Team</a></li>
+                <li><a href="/feed.html">Public Feed Page</a></li>
+                <li><a href="/maps.html">Maps Page</a></li>
+                <li><a href="/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <div id="myMapsHeader"><h1>
-    Cinema Locations in Singapore
-  </h1></div>
-  <div id="map"></div>
-  <div id="mapsPgPopUp">
-    <div id="firstMenuBody">
-      <button id="closeBtn" onclick="div_hide()">
+    <div id="myMapsHeader">
+        <h1>
+            Cinema Locations in Singapore
+        </h1>
+    </div>
+    <div id="map"></div>
+    <div id="mapsPgPopUp">
+        <div id="firstMenuBody">
+            <button id="closeBtn" onclick="div_hide()">
         <img id="closeBtnImg" src="/images/closeButton_1.png" alt="Index"/>
       </button>
-      <div class="container">
-        <div class="box">
-          <textarea placeholder="Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else." id="submitReviewTextArea"></textarea>
-          <div class="content">
-            <div id="cinemaSentimentScore"><h2>36</h2></div>
-            <div id="cinemaName"><h3></h3></div>
-            <p>
-              Submit your Review!
-            </p>
-            <button id="submitReviewsButton">Submit Review</button>
-          </div>
+            <div class="container">
+                <div class="box">
+                    <textarea placeholder="Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else." id="submitReviewTextArea"></textarea>
+                    <div class="content">
+                        <div id="cinemaSentimentScore">
+                            <h2>36</h2>
+                        </div>
+                        <div id="cinemaName">
+                            <h3></h3>
+                        </div>
+                        <p>
+                            Submit your Review!
+                        </p>
+                        <button id="submitReviewsButton">Submit Review</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </body>
 
 </html>

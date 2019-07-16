@@ -1,17 +1,18 @@
-/** code by webdevtrick ( https://webdevtrick.com ) **/
-var accordions = document.getElementsByClassName("accordion");
+/** idea from webdevtrick ( https://webdevtrick.com ) **/
 
-for (var i = 0; i < accordions.length; i++) {
-    accordions[i].onclick = function() {
+var faq_button = document.getElementsByClassName("accordion");
+
+for (var i = 0; i < faq_button.length; i++) {
+    faq_button[i].onclick = function() {
         this.classList.toggle('is-open');
 
         var content = this.nextElementSibling;
         if (content.style.maxHeight) {
-            // accordion is currently open, so close it
             content.style.maxHeight = null;
+            //close (minimise) the button
         } else {
-            // accordion is currently closed, so open it
             content.style.maxHeight = content.scrollHeight + "px";
+            //open it again
         }
     }
 }

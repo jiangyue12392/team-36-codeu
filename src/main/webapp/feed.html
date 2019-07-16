@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Message Feed</title>
     <link rel="stylesheet" href="/css/indexPage.css">
     <link rel="stylesheet" href="/css/user-page.css">
     <link rel="stylesheet" href="/css/navbar.css">
 
     <script src="/js/messages-loader.js"></script>
-  </head>
-  <body onload="buildUI()">
+</head>
+
+<body onload="buildUI()">
     <header>
-      <img src="images/popcornIcon.png" alt="Image not available">
-      <nav>
-        <ul id="navigation">
-          <li><a href="/">Home</a></li>
-          <li><a href="/aboutus.html">About Our Team</a></li>
-          <li><a href="/feed.html">Public Feed Page</a></li>
-          <li><a href="/maps.html">Maps Page</a></li>
-        </ul>
-      </nav>
+        <img src="images/popcornIcon.png" alt="Image not available">
+        <nav>
+            <ul id="navigation">
+                <li><a href="/">Home</a></li>
+                <li><a href="/aboutus.html">About Our Team</a></li>
+                <li><a href="/feed.html">Public Feed Page</a></li>
+                <li><a href="/maps.html">Maps Page</a></li>
+                <li><a href="/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
     </header>
     <div id="content">
-      <h1>Message Feed</h1>
-      <div>
-        <select id="language">
+        <h1>Message Feed</h1>
+        <div>
+            <select id="language">
           <option value="original">Original</option>
           <option value="en">English</option>
           <option value="zh">Chinese</option>
           <option value="hi">Hindi</option>
         </select>
-        <button onclick="submitTransReq();">Translate</button>
-        <select id="cinema">
+            <button onclick="submitTransReq();">Translate</button>
+            <select id="cinema">
           <option value="all">All</option>
         </select>
-        <button onclick="submitCinemaReq();">Select</button>
-        <div id="refreshInstruc">
-          <h2>Refresh page after 4.5s to see your review.</h2>
+            <button onclick="submitCinemaReq();">Select</button>
+            <div id="refreshInstruc">
+                <h2>Refresh page after 4.5s to see your review.</h2>
+            </div>
         </div>
-      </div>
-      <hr/>
-      <div id="message-container">Loading...</div>
+        <hr/>
+        <div id="message-container">Loading...</div>
     </div>
-  </body>
+</body>
+
 </html>
