@@ -9,7 +9,7 @@ let chairIcon = {
   origin: new google.maps.Point(0,0)
 };
 
-let loginStatus=false;
+let loginStatus = false;
 
 /**
  * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
@@ -127,7 +127,7 @@ function buildPopupWindowInput(cinemaName, key) {
   const textBox = document.getElementById('submitReviewTextArea');
   const button = document.getElementById('submitReviewsButton');
   if (!loginStatus) {
-    button.innerHTML = "Login"
+    button.innerHTML = "Login to review"
   }
   button.onclick = () => {
     if (loginStatus) {
@@ -144,9 +144,7 @@ function div_hide() {
 
 function fetchLoginStatus() {
   fetch('/login-status')
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((loginStatusResponse) => {
       loginStatus = loginStatusResponse.isLoggedIn;
     });
