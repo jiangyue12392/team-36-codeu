@@ -48,9 +48,18 @@ function buildMessageDiv(message){
   return messageDiv;
 }
 
-// Posts the selected language to be translated to and fetch translated messages from server.
+// Gets the selected language to be translated to and fetch translated messages from server.
 function submitTransReq() {
   language = document.getElementById('language').value;
+  const messageContainer = document.getElementById('message-container');
+  messageContainer.innerText = 'Loading...';
+
+  fetchMessages();
+}
+
+// Gets the selected cinema and fetch messages from the specific cinema.
+function submitCinemaReq() {
+  cinemaKey = document.getElementById('cinema').value;
   const messageContainer = document.getElementById('message-container');
   messageContainer.innerText = 'Loading...';
 
@@ -63,8 +72,23 @@ function initializeUrlParams(url) {
   cinemaKey = search_params.get('cinemaKey') || "all";
 }
 
+function createCinemaOptions() {
+  cinemaSelect = document.getElementById("cinema")
+  fetch('/cinema-data')
+    .then(response => response.json())
+    .then(jsonData => {
+      jsonData.forEach((cinema) => {
+        option = document.createElement("option");
+        option.value = cinema.key;
+        option.innerHTML = cinema.content;
+        cinemaSelect.appendChild(option);
+      });
+    });
+}
+
 // Fetch data and populate the UI of the page.
 function buildUI() {
   initializeUrlParams();
+  createCinemaOptions();
   fetchMessages();
 }
