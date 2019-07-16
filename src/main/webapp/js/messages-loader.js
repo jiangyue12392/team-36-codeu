@@ -92,7 +92,13 @@ function loadOnce(){
     window.location.reload();
   }
 }
+/*
+let scrollEventHandler = function()
+{
+  window.scroll(0, window.pageYOffset)
+};
 
+window.addEventListener("scroll", scrollEventHandler, false);*/
 
 // Fetch data and populate the UI of the page.
 function buildUI() {
