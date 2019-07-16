@@ -9,6 +9,8 @@ let chairIcon = {
   origin: new google.maps.Point(0,0)
 };
 
+let loginStatus=false;
+
 /**
  * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
  * Map styles are different modes that will be displayed to the user
@@ -124,8 +126,15 @@ function buildPopupWindowInput(cinemaName, key) {
   document.getElementById('mapsPgPopUp').style.display = "block";
   const textBox = document.getElementById('submitReviewTextArea');
   const button = document.getElementById('submitReviewsButton');
+  if (!loginStatus) {
+    button.innerHTML = "Login"
+  }
   button.onclick = () => {
-    handleSubmitButtonClick(key, textBox.value);
+    if (loginStatus) {
+      handleSubmitButtonClick(key, textBox.value);
+    } else {
+      window.location.href = "/login";
+    }
   };
 }
 
@@ -133,6 +142,17 @@ function div_hide() {
   document.getElementById('mapsPgPopUp').style.display = "none";
 }
 
+function fetchLoginStatus() {
+  fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatusResponse) => {
+      loginStatus = loginStatusResponse.isLoggedIn;
+    });
+}
+
 function buildUI() {
+  fetchLoginStatus();
   fetchConfigAndBuildMap();
 }
