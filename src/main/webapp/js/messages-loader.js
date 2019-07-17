@@ -86,24 +86,9 @@ function createCinemaOptions() {
     });
 }
 
-function loadOnce(){
-  if(!window.location.hash) {
-    window.location = window.location + '#loaded';
-    window.location.reload();
-  }
-}
-/*
-let scrollEventHandler = function()
-{
-  window.scroll(0, window.pageYOffset)
-};
-
-window.addEventListener("scroll", scrollEventHandler, false);*/
-
 // Fetch data and populate the UI of the page.
 function buildUI() {
   initializeUrlParams();
   createCinemaOptions();
-  setTimeout(loadOnce, 4500);
   fetchMessages();
 }
