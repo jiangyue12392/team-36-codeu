@@ -1,5 +1,3 @@
-/** idea from webdevtrick ( https://webdevtrick.com ) **/
-
 var faq_button = document.getElementsByClassName("accordion");
 
 for (var i = 0; i < faq_button.length; i++) {
