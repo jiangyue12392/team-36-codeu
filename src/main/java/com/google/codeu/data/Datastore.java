@@ -126,28 +126,31 @@ public class Datastore {
   public HashMap<String, Double> getAggregateSentiment() {
 
     HashMap <String, Double> sentimentScoresMap = new HashMap<>();
+    HashMap <String, Double> messageCount = new HashMap<>();
 
     Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
-      try {
-        double message_score = (double) entity.getProperty("sentimentScore");
-        System.out.println(message_score);
+      double message_score = (double) entity.getProperty("sentimentScore");
+      Key parent_key = entity.getParent();
+      String parentKey = KeyFactory.keyToString(parent_key);
 
-        Key msgKey = entity.getKey();
-        Key parentKey = msgKey.getParent();
-        System.out.println(parentKey);
-        //
-        // if (sentimentScoresMap.containsKey(parentKey)) {
-        //   double curr_score = sentimentScoresMap.get(parentKey);
-        //   message_score += curr_score;
-        // }
-        // sentimentScoresMap.put(parentKey, message_score);
-      } catch (Exception e) {
-          System.err.println("Error reading entity");
+      if (messageCount.containsKey(parentKey)) {
+        messageCount.put(parentKey, ((messageCount.get(parentKey))+1));
+        sentimentScoresMap.put(parentKey, (sentimentScoresMap.get(parentKey) + message_score));
+      } else {
+        messageCount.put(parentKey, 1.0);
+        sentimentScoresMap.put(parentKey, message_score);
       }
     }
+
+     messageCount.forEach((key, value) -> {
+      System.out.println(value);
+      double totalScore = sentimentScoresMap.get(key);
+      totalScore = totalScore/value;
+      sentimentScoresMap.put(key, totalScore);
+     });
 
     return sentimentScoresMap;
   }
@@ -261,6 +264,4 @@ public class Datastore {
     }
     return maxLength;
   }
-
-
 }

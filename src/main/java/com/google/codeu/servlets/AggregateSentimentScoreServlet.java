@@ -57,13 +57,9 @@ public class AggregateSentimentScoreServlet extends HttpServlet {
      * Calculates sentiment score for message of each type and stores in a dictionary
      */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
       sentimentScoresMap = datastore.getAggregateSentiment();
-      System.out.println("printing the sentiment map");
       System.out.println(sentimentScoresMap);
-      System.out.println("finished printing the sentiment map");
-
     }
 
     /**
@@ -71,22 +67,28 @@ public class AggregateSentimentScoreServlet extends HttpServlet {
      * parent key.
      */
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/text");
 
-        // response.setContentType("application/text");
-        //
-        // String parentKey = request.getParameter("parentKey");
-        //
-        // if (parentKey == null || parentKey.equals("")) {
-        //     // Request is invalid, return empty array
-        //     response.getWriter().println("[]");
-        //     return;
-        // }
-        //
-        // double sum = sentimentScores.get(parentKey);
-        // System.out.println("The calculated sentiment value is: ");
-        // System.out.println(sum);
-        //
-        // response.getWriter().println(sum);
+        String parentKey = request.getParameter("parentKey");
+
+        if (parentKey == null || parentKey.equals("")) {
+            // Request is invalid, return empty array
+            response.getWriter().println("");
+            return;
+        }
+
+        double sum = 0;
+
+        if (sentimentScoresMap.containsKey(parentKey)) {
+            sum = sentimentScoresMap.get(parentKey);
+        }
+
+        double roundedSum = Math.round(sum * 100.0) / 100.0;
+
+        System.out.println("The calculated sentiment value is: ");
+        System.out.println(roundedSum);
+
+        response.getWriter().println(roundedSum);
     }
 }

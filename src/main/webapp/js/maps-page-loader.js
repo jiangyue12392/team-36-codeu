@@ -121,10 +121,9 @@ async function handleSubmitButtonClick(key, text) {
 }
 
 /** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
-async function buildPopupWindowInput(cinemaName, key) {
-
-    console.log("reached build ui")
+function buildPopupWindowInput(cinemaName, key) {
     fetchSentimentScore(key);
+    console.log("after the function");
 
     document.getElementById("cinemaName").innerHTML = cinemaName;
     document.getElementById('mapsPgPopUp').style.display = "block";
@@ -148,13 +147,15 @@ function fetchSentimentScore(key) {
     console.log("reached sentiment score fetch");
 
     fetch('/sentiment-aggregate', {
-            method: 'GET',
+            method: 'POST',
             body: params
         })
         .then((response) => response.text())
         .then((aggregateSentiment) => {
-            console.log(aggregateSentiment);
-            document.getElementById('cinemaSentimentScore').innerHTML = aggregateSentiment;
+            if(aggregateSentiment == 0.0) {
+              aggregateSentiment = "--";
+            }
+            document.getElementById('cinemaSentimentScore').innerHTML = aggregateSentiment + "/ 1.0";
         });
 }
 
@@ -171,9 +172,7 @@ function fetchLoginStatus() {
 }
 
 function fetchAllMessages() {
-    fetch('/sentiment-aggregate', {
-        method: 'POST'
-    });
+    fetch('/sentiment-aggregate');
 }
 
 function buildUI() {
