@@ -6,12 +6,13 @@
   <link rel="stylesheet" href="/css/maps-page.css">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxd60VBUhGDGcDgEEwgyFkEfVtcG6xiZU"></script>
   <script src="/js/maps-page-loader.js"></script>
+  <script src="/js/navigation-loader.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/selectionMenu.css">
   <link rel="stylesheet" type="text/css" href="/css/navbar.css">
 </head>
 
-<body onload="buildUI()" id="body" style="overflow:hidden;">
+<body onload="addLoginOrLogoutLinkToNavigation();buildUI();" id="body" style="overflow:hidden;">
   <header>
     <img src="images/popcornIcon.png" alt="Image not available">
     <nav>
@@ -35,14 +36,14 @@
       </button>
       <div class="container">
         <div class="box">
-          <textarea id="submitReviewTextArea"> Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else.</textarea>
+          <textarea placeholder="Enter your reviews for this cinema here. It can be about the cleanliness, customer service quality, film selection variety, comfort or anything else." id="submitReviewTextArea"></textarea>
           <div class="content">
             <div id="cinemaSentimentScore"><h2>36</h2></div>
             <div id="cinemaName"><h3></h3></div>
             <p>
               Submit your Review!
             </p>
-            <button id="submitReviewsButton"><a href="/feed.html">Submit Review</a></button>
+            <button id="submitReviewsButton">Submit Review</button>
           </div>
         </div>
       </div>

@@ -29,28 +29,6 @@ function setPageTitle() {
   document.title = parameterUsername + ' - User Page';
 }
 
-/**
- * Shows the message form if the user is logged in and viewing their own page.
- */
-function showMessageFormIfViewingSelf() {
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
-          fetch('/blobstore-upload-url')
-            .then((response) => response.text())
-            .then((imageUploadUrl) => {
-              const messageForm = document.getElementById('message-form');
-              messageForm.action = imageUploadUrl;
-              messageForm.classList.remove('hidden');
-            });
-        }
-      });
-}
-
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
@@ -98,6 +76,5 @@ function buildMessageDiv(message) {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
   fetchMessages();
 }

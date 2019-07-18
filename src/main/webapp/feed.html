@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="/css/user-page.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <script src="/js/messages-loader.js"></script>
+    <script src="/js/navigation-loader.js"></script>
   </head>
-  <body onload="buildUI()">
+  <body onload="addLoginOrLogoutLinkToNavigation();buildUI();">
     <header>
       <img src="images/popcornIcon.png" alt="Image not available">
       <nav>
@@ -29,6 +30,13 @@
           <option value="hi">Hindi</option>
         </select>
         <button onclick="submitTransReq();">Translate</button>
+        <select id="cinema">
+          <option value="all">All</option>
+        </select>
+        <button onclick="submitCinemaReq();">Select</button>
+        <div id="refreshInstruc">
+          <h2>Refresh page after 4.5s to see your review.</h2>
+        </div>
       </div>
       <hr/>
       <div id="message-container">Loading...</div>
