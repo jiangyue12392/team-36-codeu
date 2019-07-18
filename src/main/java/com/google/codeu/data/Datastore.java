@@ -27,6 +27,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,7 @@ public class Datastore {
       messageEntity = new Entity("Message", message.getId().toString());
     else
       messageEntity = new Entity("Message", message.getId().toString(), KeyFactory.stringToKey(parentKey));
+
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
@@ -113,6 +115,41 @@ public class Datastore {
 
     messages = getMessagesHelperFunction(query);
     return messages;
+  }
+
+  /**
+   * Gets all messages so aggregate sentiment score can be calculated for each marker
+   *
+   * @return a list of all message entities, or empty list if no messages have
+   *     been posted. List is sorted by time descending.
+   */
+  public HashMap<String, Double> getAggregateSentiment() {
+
+    HashMap <String, Double> sentimentScoresMap = new HashMap<>();
+
+    Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        double message_score = (double) entity.getProperty("sentimentScore");
+        System.out.println(message_score);
+
+        Key msgKey = entity.getKey();
+        Key parentKey = msgKey.getParent();
+        System.out.println(parentKey);
+        //
+        // if (sentimentScoresMap.containsKey(parentKey)) {
+        //   double curr_score = sentimentScoresMap.get(parentKey);
+        //   message_score += curr_score;
+        // }
+        // sentimentScoresMap.put(parentKey, message_score);
+      } catch (Exception e) {
+          System.err.println("Error reading entity");
+      }
+    }
+
+    return sentimentScoresMap;
   }
 
   /*
