@@ -68,4 +68,6 @@ ul li a:hover {
     transform: scale(1.5);
     opacity: 1;
     filter: blur(0);
+    color: aliceblue;
+    text-decoration: none;
 }
