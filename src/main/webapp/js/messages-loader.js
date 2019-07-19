@@ -73,7 +73,7 @@ function initializeUrlParams(url) {
 }
 
 function createCinemaOptions() {
-  cinemaSelect = document.getElementById("cinema")
+  cinemaSelect = document.getElementById("cinema");
   fetch('/cinema-data')
     .then(response => response.json())
     .then(jsonData => {
@@ -83,7 +83,15 @@ function createCinemaOptions() {
         option.innerHTML = cinema.content;
         cinemaSelect.appendChild(option);
       });
+      cinemaSelect.value = cinemaKey;
     });
+}
+
+function loadOnce(){
+  if(!window.location.hash) {
+    window.location = window.location + '#loaded';
+    window.location.reload();
+  }
 }
 
 // Fetch data and populate the UI of the page.
@@ -91,4 +99,5 @@ function buildUI() {
   initializeUrlParams();
   createCinemaOptions();
   fetchMessages();
+  setTimeout(loadOnce, 4500);
 }
