@@ -20,13 +20,14 @@
 }
 
 .message-div {
-  border: thin solid black;
+  border: solid brown;
   border-radius: 5px;
   margin-top: 20px;
+  margin-right:10px;
 }
 
 .message-header {
-  border-bottom: thin solid black;
+  border-bottom: thin solid brown;
   padding: 5px;
 }
 
@@ -40,11 +41,4 @@
 
 #content{
   padding-top:80px;
-}
-
-#redirectMsg{
-  position: center;
-  padding-top: 80px;
-  padding-left: 20%;
-  font-size: 80px;
 }
