@@ -122,6 +122,9 @@ async function handleSubmitButtonClick(key, text) {
 
 /** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
 function buildPopupWindowInput(cinemaName, key) {
+  fetchSentimentScore(key);
+  console.log("after the function");
+
   document.getElementById("cinemaName").innerHTML = cinemaName;
   document.getElementById('mapsPgPopUp').style.display = "block";
   const textBox = document.getElementById('submitReviewTextArea');
@@ -138,6 +141,24 @@ function buildPopupWindowInput(cinemaName, key) {
   };
 }
 
+function fetchSentimentScore(key) {
+  const params = new URLSearchParams();
+  params.append('parentKey', key);
+  console.log("reached sentiment score fetch");
+
+  fetch('/sentiment-aggregate', {
+    method: 'POST',
+    body: params
+  })
+  .then((response) => response.text())
+  .then((aggregateSentiment) => {
+    if(aggregateSentiment == 0.0) {
+      aggregateSentiment = "--";
+    }
+    document.getElementById('cinemaSentimentScore').innerHTML = aggregateSentiment + "/ 1.0";
+  });
+}
+
 function div_hide() {
   document.getElementById('mapsPgPopUp').style.display = "none";
 }
@@ -150,7 +171,12 @@ function fetchLoginStatus() {
   });
 }
 
+function fetchAllMessages() {
+  fetch('/sentiment-aggregate');
+}
+
 function buildUI() {
   fetchLoginStatus();
   fetchConfigAndBuildMap();
+  fetchAllMessages();
 }
