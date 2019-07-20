@@ -1,7 +1,8 @@
-html, body {
+html,
+body {
   background-color: #fedcc8;
   overflow-y: hidden;
-  max-width:100%;
+  max-width: 100%;
 }
 
 .parallax {
@@ -16,6 +17,7 @@ html, body {
   bottom: 0;
   margin-left: -1500px;
 }
+
 .parallax__layer {
   position: absolute;
   top: 0;
@@ -23,11 +25,13 @@ html, body {
   bottom: 0;
   left: 0;
 }
+
 .parallax__layer img {
   display: block;
   position: absolute;
   bottom: 0;
 }
+
 .parallax__cover {
   background: #2d112b;
   display: block;
@@ -44,11 +48,11 @@ html, body {
   left: 700px;
   margin-left: 100px;
   padding-left: 10px;
-  padding-bottom:10px;
-  padding-top:1px;
+  padding-bottom: 10px;
+  padding-top: 1px;
   margin-right: 25%;
-  border-radius:10px;
-  color:brown;
+  border-radius: 10px;
+  color: brown;
   width: 1370px;
   background-color: #fedcc8;
 }
@@ -56,21 +60,27 @@ html, body {
 .parallax__layer__0 {
   transform: translateZ(-300px) scale(4);
 }
+
 .parallax__layer__1 {
   transform: translateZ(-250px) scale(3.5);
 }
+
 .parallax__layer__2 {
   transform: translateZ(-200px) scale(3);
 }
+
 .parallax__layer__3 {
   transform: translateZ(-150px) scale(2.5);
 }
+
 .parallax__layer__4 {
   transform: translateZ(-100px) scale(2);
 }
+
 .parallax__layer__5 {
   transform: translateZ(-50px) scale(1.5);
 }
+
 .parallax__layer__6 {
   transform: translateZ(0px) scale(1);
 }
