@@ -98,5 +98,5 @@ function buildUI() {
   initializeUrlParams();
   createCinemaOptions();
   fetchMessages();
-  setTimeout(loadOnce, 4500);
+  setTimeout(loadOnce, 8000);
 }
