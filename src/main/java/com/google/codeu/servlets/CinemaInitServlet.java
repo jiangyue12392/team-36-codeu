@@ -35,9 +35,9 @@ public class CinemaInitServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    // Redirects user if not logged in
+    // Redirects user to login page if not logged in
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
+      response.sendRedirect("/login");
       return;
     }
     // Redirects user if not admin
