@@ -71,6 +71,15 @@ function initializeUrlParams(url) {
   cinemaKey = search_params.get('cinemaKey') || "all";
 }
 
+function initializeStoredMessage() {
+  const storedMessage = localStorage.getItem("postMessage");
+  if (storedMessage) {
+    const jsonObj = JSON.parse(storedMessage)
+    document.getElementById('message-container').appendChild(buildMessageDiv(jsonObj));
+    sessionStorage.removeItem("postMessage");
+  }
+}
+
 function createCinemaOptions() {
   cinemaSelect = document.getElementById("cinema");
   fetch('/cinema-data')
@@ -86,17 +95,10 @@ function createCinemaOptions() {
   });
 }
 
-function loadOnce() {
-  if (!window.location.hash) {
-    window.location = window.location + '#loaded';
-    window.location.reload();
-  }
-}
-
 // Fetch data and populate the UI of the page.
 function buildUI() {
   initializeUrlParams();
+  initializeStoredMessage();
   createCinemaOptions();
   fetchMessages();
-  setTimeout(loadOnce, 8000);
 }

@@ -112,12 +112,12 @@ function postMessage(parentKey, text) {
   fetch('/marker-messages', {
     method: 'POST',
     body: params
-  });
-}
-
-async function handleSubmitButtonClick(key, text) {
-  await postMessage(key, text);
-  window.location.href = "/feed.html?cinemaKey=" + key;
+  }).then(response => response.json())
+    .then(jsonData => {
+      // html5 session storage, may not work on some old browser
+      localStorage.setItem("postMessage", JSON.stringify(jsonData));
+      window.location.href = "/feed.html?cinemaKey=" + parentKey;
+    });
 }
 
 /** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
@@ -134,7 +134,7 @@ function buildPopupWindowInput(cinemaName, key) {
   }
   button.onclick = () => {
     if (loginStatus) {
-      handleSubmitButtonClick(key, textBox.value);
+      postMessage(key, textBox.value);
     } else {
       window.location.href = "/login";
     }

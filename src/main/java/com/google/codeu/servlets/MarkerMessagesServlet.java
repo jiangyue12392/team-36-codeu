@@ -24,6 +24,7 @@ import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,10 +38,12 @@ import org.jsoup.safety.Whitelist;
 public class MarkerMessagesServlet extends HttpServlet {
 
   private Datastore datastore;
+  private Gson gson;
 
   @Override
   public void init() {
     datastore = new Datastore();
+    gson = new Gson();
   }
 
 
@@ -73,7 +76,9 @@ public class MarkerMessagesServlet extends HttpServlet {
     double score = sentiment.getScore();
     languageService.close();
     Message message = new Message(user, userText, score);
-    if (parentKey != null && !parentKey.equals(""))
+    if (parentKey != null && !parentKey.equals("")) {
       datastore.storeMessage(message, parentKey);
+      response.getOutputStream().println(gson.toJson(message));
+    }
   }
 }
