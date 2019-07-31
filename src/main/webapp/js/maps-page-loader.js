@@ -138,6 +138,7 @@ function buildPopupWindowInput(cinemaName, key) {
     } else {
       window.location.href = "/login";
     }
+    this.disabled = true;
   };
 }
 
