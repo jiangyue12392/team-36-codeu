@@ -40,6 +40,7 @@
 #submitReviewsButton{
   background-color: rgba(165,42,42,0.01);
   border:0;
+  color:antiquewhite;
 }
 
 #closeBtn {
