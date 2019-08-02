@@ -113,11 +113,11 @@ function postMessage(parentKey, text) {
     method: 'POST',
     body: params
   }).then(response => response.json())
-    .then(jsonData => {
-      // html5 session storage, may not work on some old browser
-      localStorage.setItem("postMessage", JSON.stringify(jsonData));
-      window.location.href = "/feed.html?cinemaKey=" + parentKey;
-    });
+  .then(jsonData => {
+    // html5 session storage, may not work on some old browser
+    localStorage.setItem("postMessage", JSON.stringify(jsonData));
+    window.location.href = "/feed.html?cinemaKey=" + parentKey;
+  });
 }
 
 /** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
@@ -153,7 +153,7 @@ function fetchSentimentScore(key) {
   })
   .then((response) => response.text())
   .then((aggregateSentiment) => {
-    if(aggregateSentiment == 0.0) {
+    if (aggregateSentiment == -2.0) {
       aggregateSentiment = "--";
     }
     document.getElementById('cinemaSentimentScore').innerHTML = aggregateSentiment + "/ 1.0";

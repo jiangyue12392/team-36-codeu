@@ -78,7 +78,7 @@ public class AggregateSentimentScoreServlet extends HttpServlet {
             return;
         }
 
-        double sum = 0;
+        double sum = -2;
 
         if (sentimentScoresMap.containsKey(parentKey)) {
             sum = sentimentScoresMap.get(parentKey);
