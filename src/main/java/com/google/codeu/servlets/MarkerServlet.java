@@ -5,11 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Marker;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -19,18 +15,22 @@ import org.jsoup.safety.Whitelist;
 
 @WebServlet("/markers")
 public class MarkerServlet extends HttpServlet {
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+  private Datastore datastore;
+  private Gson gson;
+
+  @Override
+  public void init() {
+    datastore = new Datastore();
+    gson = new Gson();
+  }
 
   /** Responds with a JSON array containing marker data. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-
-    List<Marker> markers = getMarkers();
-    Gson gson = new Gson();
-    String json = gson.toJson(markers);
-
-    response.getOutputStream().println(json);
+    List<Marker> markers = datastore.getAllMarkers();
+    response.getOutputStream().println(gson.toJson(markers));
   }
 
   /** Accepts a POST request containing a new marker. */
@@ -41,33 +41,6 @@ public class MarkerServlet extends HttpServlet {
     String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
 
     Marker marker = new Marker(lat, lng, content);
-    storeMarker(marker);
-  }
-
-  /** Fetches markers from Datastore. */
-  private List<Marker> getMarkers() {
-    List<Marker> markers = new ArrayList<>();
-    Query query = new Query("Marker");
-    PreparedQuery results = datastore.prepare(query);
-
-    for (Entity entity : results.asIterable()) {
-      double lat = (double) entity.getProperty("lat");
-      double lng = (double) entity.getProperty("lng");
-      String content = (String) entity.getProperty("content");
-
-      Marker marker = new Marker(lat, lng, content);
-      markers.add(marker);
-    }
-    return markers;
-  }
-
-  /** Stores a marker in Datastore. */
-  public void storeMarker(Marker marker) {
-    Entity markerEntity = new Entity("Marker");
-    markerEntity.setProperty("lat", marker.getLat());
-    markerEntity.setProperty("lng", marker.getLng());
-    markerEntity.setProperty("content", marker.getContent());
-
-    datastore.put(markerEntity);
+    datastore.storeMarker(marker);
   }
 }
