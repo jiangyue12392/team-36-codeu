@@ -3,13 +3,13 @@ const MAP_NIGHT_TYPE_ID = 'night';
 
 let chairIcon = {
   url: '/images/seat.png',
-  //state your size parameters in terms of pixels
-  size: new google.maps.Size(40, 30),
+  size: new google.maps.Size(40, 30), //state your size parameters in terms of pixels
   scaledSize: new google.maps.Size(40, 30),
   origin: new google.maps.Point(0, 0)
 };
 
 let loginStatus = false;
+let aggregateSentiment;
 
 /**
 * This function is meant to create the map, set the centre and zoom, add a new map style and add markers.
@@ -20,8 +20,8 @@ let loginStatus = false;
 function fetchConfigAndBuildMap() {
   const url = '/json/extraMapStyles.json';
   fetch(url)
-  .then(response => response.json())
-  .then(data => addDiffStylesToMap(data.Night));
+      .then(response => response.json())
+      .then(data => addDiffStylesToMap(data.Night));
 }
 
 function addDiffStylesToMap(mapStyle) {
@@ -34,8 +34,7 @@ function addDiffStylesToMap(mapStyle) {
 }
 
 function createStyledMap(styledMapType) {
-  // Create a map object, and include the MapTypeId to add
-  // to the map type control.
+  // Create a map object, and include the MapTypeId to add to the map type control.
   const map = new google.maps.Map(document.getElementById(MAP_ELEMENT_ID), {
     center: { lat: 1.360860, lng: 103.823800 },
     zoom: 12,
@@ -56,12 +55,12 @@ function createStyledMap(styledMapType) {
 */
 function createCinemaMarkers(map) {
   fetch('/cinema-data')
-  .then(response => response.json())
-  .then(jsonData => {
-    jsonData.forEach((cinemaMarker) => {
-      createCinemaMarkerForDisplay(map, cinemaMarker.lat, cinemaMarker.lng, cinemaMarker.content, cinemaMarker.key)
-    });
-  });
+      .then(response => response.json())
+      .then(jsonData => {
+        jsonData.forEach((cinemaMarker) => {
+          createCinemaMarkerForDisplay(map, cinemaMarker.lat, cinemaMarker.lng, cinemaMarker.content, cinemaMarker.key)
+        });
+      });
 }
 
 /**
@@ -78,10 +77,6 @@ function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
   });
 
   const infoText = document.createTextNode(cinemaName);
-
-  /*TODO: change this to get dict of cinema aggregated scores instead by key. So we just do one fetch()*/
-  /*await getMessagesForKey(key);*/
-
   const infoWindow = new google.maps.InfoWindow({
     content: infoText
   });
@@ -98,11 +93,6 @@ function createCinemaMarkerForDisplay(map, lat, lng, cinemaName, key) {
     infoWindow.close();
   });
 }
-
-
-/*TODO: Get dict of cinema aggregated scores instead by key. So we just do one fetch()*/
-/*If we want smiley: less than 0 -> sad face. If more than 0 -> happy face. If 0 -> neutral face. Just pass out a dict of 0,1,-1 values to frontend*/
-
 
 /** Sends a message to the backend for saving. */
 function postMessage(parentKey, text) {
@@ -122,12 +112,16 @@ function postMessage(parentKey, text) {
 
 /** Builds HTML pop up that show an editable textbox and a submit button. Then handles submit */
 function buildPopupWindowInput(cinemaName, key) {
-  fetchSentimentScore(key);
-  console.log("after the function");
-
   document.getElementById("cinemaName").innerHTML = cinemaName;
   document.getElementById('mapsPgPopUp').style.display = "block";
   const textBox = document.getElementById('submitReviewTextArea');
+
+  let sentimentScore = '--';
+  if (aggregateSentiment.hasOwnProperty(key)) {
+    sentimentScore = aggregateSentiment[key].toFixed(2);
+  }
+  document.getElementById('cinemaSentimentScore').innerHTML = sentimentScore + "/ 1.0";
+
   const button = document.getElementById('submitReviewsButton');
   if (!loginStatus) {
     button.innerHTML = "Login to review"
@@ -142,42 +136,26 @@ function buildPopupWindowInput(cinemaName, key) {
   };
 }
 
-function fetchSentimentScore(key) {
-  const params = new URLSearchParams();
-  params.append('parentKey', key);
-  console.log("reached sentiment score fetch");
-
-  fetch('/sentiment-aggregate', {
-    method: 'POST',
-    body: params
-  })
-  .then((response) => response.text())
-  .then((aggregateSentiment) => {
-    if (aggregateSentiment == -2.0) {
-      aggregateSentiment = "--";
-    }
-    document.getElementById('cinemaSentimentScore').innerHTML = aggregateSentiment + "/ 1.0";
-  });
-}
-
 function div_hide() {
   document.getElementById('mapsPgPopUp').style.display = "none";
 }
 
 function fetchLoginStatus() {
   fetch('/login-status')
-  .then((response) => response.json())
-  .then((loginStatusResponse) => {
-    loginStatus = loginStatusResponse.isLoggedIn;
-  });
+      .then((response) => response.json())
+      .then((loginStatusResponse) => {
+        loginStatus = loginStatusResponse.isLoggedIn;
+      });
 }
 
-function fetchAllMessages() {
-  fetch('/sentiment-aggregate');
+function fetchSentimentScore() {
+  fetch('/sentiment-aggregate')
+      .then((response) => response.json())
+      .then((sentimentJson) => { aggregateSentiment = sentimentJson;} );
 }
 
 function buildUI() {
   fetchLoginStatus();
+  fetchSentimentScore();
   fetchConfigAndBuildMap();
-  fetchAllMessages();
 }

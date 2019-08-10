@@ -16,22 +16,10 @@
 
 package com.google.codeu.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
-import com.google.codeu.data.Marker;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,51 +32,23 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/sentiment-aggregate")
 public class AggregateSentimentScoreServlet extends HttpServlet {
 
-    private Datastore datastore;
-    private HashMap <String, Double> sentimentScoresMap = new HashMap<>();
+  private Datastore datastore;
+  private Gson gson;
+  private HashMap <String, Double> sentimentScoresMap = new HashMap<>();
 
-    @Override
-    public void init() {
-        datastore = new Datastore();
-    }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+    gson = new Gson();
+  }
 
-    /**
-     * Makes a request to datastore and retrieves aggregate sentiment score for all messages.
-     * Calculates sentiment score for message of each type and stores in a dictionary
-     */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      sentimentScoresMap = datastore.getAggregateSentiment();
-      System.out.println(sentimentScoresMap);
-    }
-
-    /**
-     * Responds with a aggregate sentiment score of all messages for a specific
-     * parent key.
-     */
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/text");
-
-        String parentKey = request.getParameter("parentKey");
-
-        if (parentKey == null || parentKey.equals("")) {
-            // Request is invalid, return empty array
-            response.getWriter().println("");
-            return;
-        }
-
-        double sum = -2;
-
-        if (sentimentScoresMap.containsKey(parentKey)) {
-            sum = sentimentScoresMap.get(parentKey);
-        }
-
-        double roundedSum = Math.round(sum * 100.0) / 100.0;
-
-        System.out.println("The calculated sentiment value is: ");
-        System.out.println(roundedSum);
-
-        response.getWriter().println(roundedSum);
-    }
+  /**
+   * Makes a request to datastore and retrieves aggregate sentiment score for all messages.
+   * Calculates sentiment score for message of each type and stores in a dictionary
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    sentimentScoresMap = datastore.getAggregateSentiment();
+    response.getOutputStream().println(gson.toJson(sentimentScoresMap));
+  }
 }

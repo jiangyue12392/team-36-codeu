@@ -132,7 +132,7 @@ public class Datastore {
       String parentKey = KeyFactory.keyToString(parent_key);
 
       if (messageCount.containsKey(parentKey)) {
-        messageCount.put(parentKey, ((messageCount.get(parentKey))+1));
+        messageCount.put(parentKey, ((messageCount.get(parentKey)) + 1));
         sentimentScoresMap.put(parentKey, (sentimentScoresMap.get(parentKey) + message_score));
       } else {
         messageCount.put(parentKey, 1.0);
@@ -141,9 +141,8 @@ public class Datastore {
     }
 
     messageCount.forEach((key, value) -> {
-      System.out.println(value);
       double totalScore = sentimentScoresMap.get(key);
-      totalScore = totalScore/value;
+      totalScore = totalScore / value;
       sentimentScoresMap.put(key, totalScore);
     });
 

@@ -16,7 +16,6 @@
 
 package com.google.codeu.servlets;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.Document;
@@ -46,12 +45,10 @@ public class MarkerMessagesServlet extends HttpServlet {
     gson = new Gson();
   }
 
-
   /** Stores a new {@link Message}. */
   /**
    * Gets parent key parameter and creates a new message with it
    */
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
